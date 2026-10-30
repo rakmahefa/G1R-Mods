@@ -11,7 +11,7 @@ Le dépôt possède déjà un template API 3, un SDK de tests headless et les co
 ### Phase 0 — Validation du design
 
 Livrables :
-- jeu de départ fixé ;
+- cible Emerald confirmée ;
 - table des paliers et plafonds de niveau ;
 - définition des cycles de rematch ;
 - règles définitives de vente/consommation ;
