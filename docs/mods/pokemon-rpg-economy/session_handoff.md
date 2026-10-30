@@ -110,6 +110,30 @@ La dépendance la plus risquée est l'API transactionnelle de mutation/consommat
 Le mod aura une petite bibliothèque locale isolée. Le sandbox supporte `mod:read` + `load` dans le même environnement ; un chargeur allowlisté évitera les imports moteur privés. Lire `LIBRARY_DESIGN.md` avant de créer le code. La bibliothèque ne remplacera pas l'API transactionnelle du moteur et ne prétendra pas sécuriser une mutation directe de Pokémon.
 
 
+## 5 bis. Résultats consignés le 30 octobre 2026
+
+### Baseline du dépôt
+
+La CI du commit de fusion `3e2f187cbb1112fa8d39b833b51e035a997133fc` a réussi : [run #41021024747](https://github.com/rakmahefa/G1R-Mods/actions/runs/41021024747).
+
+- `make check` : réussi, aucun mod présent à contrôler.
+- `make test` : commande réussie, mais **0 suite de test** ; ce résultat ne valide aucun gameplay.
+- `make smoke-template` : réussi, 3/3 contrôles du template.
+- `make package` : réussi, aucun mod à empaqueter.
+
+Il s'agit du résultat CI, pas d'une exécution locale dans cette session. La baseline est propre pour le dépôt documentaire/template, mais le premier mod et ses tests restent à créer.
+
+### Constats du code moteur épinglé
+
+- `battle.exp_award` enveloppe le chemin d'attribution. Un wrapper qui ne poursuit pas `next` évite le chemin qui appelle `Pokemon.gainEVs` puis `Experience.apply`. `exp.gain` seul est insuffisant, car les EV sont gagnés avant l'application de l'EXP. **Test headless encore à écrire.**
+- Le moteur possède des fonctions internes pour générer et déplacer des Pokémon (notamment `Party.giveMon` et `Storage.*`). Ce ne sont pas des opérations transactionnelles publiques pour les mods.
+- `mod.game.session` ne doit pas être muté directement : cela couple le mod aux structures privées du moteur.
+- Le chargement de fichiers locaux est possible dans le sandbox avec `mod:read` + `load`, dans le même environnement que le module principal.
+
+### Changement documentaire en cours
+
+La PR [#5](https://github.com/rakmahefa/G1R-Mods/pull/5) ajoute la conception de la bibliothèque interne et les garde-fous. Elle est en brouillon ; son code n'est pas implémenté et son CI doit être vérifiée avant fusion.
+
 ## 6. Première tâche recommandée à la prochaine session
 
 **Commencer par une session d'audit technique et de prototypes, pas par l'implémentation complète du jeu.**
