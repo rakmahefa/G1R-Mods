@@ -1,6 +1,6 @@
 # Pokémon — RPG Economy Overhaul
 
-**Statut :** conception validée ; socle de bibliothèque (PR #6), suppression EXP/EV (PR #7) et RFC transactionnelle (PR #8) fusionnés ; bundle Lua source en cours d'intégration  
+**Statut :** conception et RFC transactionnelle fusionnées (PRs #3 à #8) ; bundle Lua source implémenté dans la PR #9, encore en brouillon avec CI réussie
 **Identifiant de travail :** pokemon-rpg-economy  
 **Dépôt :** G1R-Mods  
 **Périmètre de cette documentation :** design, économie, contenu, faisabilité et plan de validation. Le code runtime est dans mods/pokemon-rpg-economy/ ; ses sources de bibliothèque restent modulaires et sont assemblées au packaging.
@@ -62,6 +62,6 @@ Les combats ordinaires ne donnent ni EXP ni EV. Ils restent néanmoins utiles po
 
 ## État d'avancement
 
-Le socle de bibliothèque et le hook qui supprime l'EXP/EV des récompenses de combat sont intégrés à main. La distribution adopte un seul bundle source Lua généré à partir des modules de lib/ : les sources sont conservées dans Git, tandis que le ZIP contient uniquement lib/runtime.bundle.lua pour la bibliothèque runtime. Ce bundle est compilé par le load() sandboxé du moteur ; aucun binaire natif ni bytecode n'est utilisé.
+La bibliothèque et le hook EXP/EV sont intégrés à main. La PR #9 propose un bundle source Lua généré à partir des modules de lib/ : les sources restent séparées dans Git, tandis que le ZIP contient uniquement lib/runtime.bundle.lua pour la bibliothèque runtime. Ce bundle est compilé par le load() sandboxé du moteur ; aucun binaire natif ni bytecode n'est utilisé.
 
 Le mod ne constitue pas encore une boucle économique jouable. La consommation sûre de Pokémon, les mutations de niveau/nature/IV/EV, les accès aux boîtes et le filtrage des objets en combat restent bloqués par des capacités publiques à prouver ou à faire ajouter au moteur. La RFC POKEMON_TRANSACTION_API.md a été fusionnée dans la PR #8, mais reste une proposition : elle ne correspond pas à une API moteur existante. Les systèmes Hoenn natifs constituent des opportunités de contenu, sans garantir que chaque opération est déjà accessible à un mod.
