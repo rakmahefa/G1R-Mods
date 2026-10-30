@@ -15,6 +15,8 @@ La base de référence est désormais Pokémon Emerald. Les prix, niveaux, reven
 | Source | Fonction |
 |---|---|
 | Contrats de capture | Source principale de revenus réguliers |
+| Contrats de baies et d'expédition | Revenu alternatif sans sacrifier un Pokémon |
+| Pokéblocs et concours | Revenu secondaire et réputation |
 | Dresseurs renouvelables des routes | Petit revenu de secours, répétable après repos |
 | Minibosses | Paiement supérieur et matériau de palier |
 | Boss cachés et boss dresseurs | Récompense majeure, principalement unique |
