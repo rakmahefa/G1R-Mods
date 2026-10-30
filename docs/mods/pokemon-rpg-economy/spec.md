@@ -166,7 +166,11 @@ Tâches :
 
 ### Phase 0.5 — Socle de bibliothèque interne
 
+**Statut :** implémentée dans la PR [#6](https://github.com/rakmahefa/G1R-Mods/pull/6) — CI réussie.
+
 **Objectif :** créer le minimum de structure commune pour que les prototypes puis les fonctionnalités n'introduisent pas chacun leur propre chargement, validation ou gestion d'état.
+
+La première tranche est présente dans `mods/pokemon-rpg-economy/` : modules communs, manifeste Emerald/API 3 et tests SDK headless. La CI #41044501372 a passé `make check`, `make test`, `make smoke-template` et `make package` sur le commit `91daf575531cdc21b9e36f0272d7d2dd6ff7565a`. La PR #6 reste en brouillon ; la validation en jeu n'a pas été faite.
 
 Tâches :
 - ajouter le petit chargeur local documenté dans `LIBRARY_DESIGN.md`, avec liste blanche, cache, détection de cycles et erreurs explicites ;

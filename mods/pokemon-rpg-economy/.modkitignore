@@ -1,0 +1,2 @@
+# Keep ROM-free test code out of installable archives.
+tests/pokemon-rpg-economy_test.lua

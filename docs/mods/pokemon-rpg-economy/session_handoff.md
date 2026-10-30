@@ -4,7 +4,7 @@
 **Dépôt :** [rakmahefa/G1R-Mods](https://github.com/rakmahefa/G1R-Mods)  
 **Mod :** `pokemon-rpg-economy`  
 **Jeu cible :** Pokémon Emerald uniquement  
-**État :** dossier de conception fusionné ; plan d'implémentation rédigé ; gameplay non commencé.
+**État :** PRs documentaires #3/#4/#5 fusionnées ; socle de bibliothèque implémenté dans la PR #6 (brouillon) ; gameplay non commencé ; première CI de code réussie.
 
 ---
 
@@ -19,13 +19,14 @@ La PR [#3 — docs: define first Pokémon RPG economy mod](https://github.com/ra
 
 Cette session a ajouté le plan d'exécution `spec.md` et ce document de passation. Les fichiers de plan sont documentaires uniquement.
 
-### PR documentaire de ce plan
+### PRs documentaires
 
-- PR [#4 — docs: add implementation plan and session handoff](https://github.com/rakmahefa/G1R-Mods/pull/4).
-- Branche : `docs/pokemon-rpg-economy-execution-plan`.
-- État au dernier contrôle : ouverte, en brouillon, fusionnable.
-- Fichiers concernés : `spec.md`, `session_handoff.md` et le README du dossier.
-- Cette PR est distincte de la PR #3 déjà fusionnée. Ne pas considérer les deux nouveaux documents comme intégrés à `main` avant la fusion de la PR #4.
+- PR [#3 — design initial](https://github.com/rakmahefa/G1R-Mods/pull/3) : fusionnée.
+- PR [#4 — specification et handoff](https://github.com/rakmahefa/G1R-Mods/pull/4) : fusionnée.
+- PR [#5 — bibliothèque et garde-fous](https://github.com/rakmahefa/G1R-Mods/pull/5) : fusionnée le 30 octobre 2026.
+- Baseline de `main` après PR #5 : `0b52dee3619aa57bba817f63437e47f1e2051cb4`.
+
+La documentation de conception et de planification est donc intégrée à `main`.
 
 ## 2. État du produit à reprendre
 
@@ -107,7 +108,7 @@ La dépendance la plus risquée est l'API transactionnelle de mutation/consommat
 
 ### Garde-fou d'architecture ajouté
 
-Le mod aura une petite bibliothèque locale isolée. Le sandbox supporte `mod:read` + `load` dans le même environnement ; un chargeur allowlisté évitera les imports moteur privés. Lire `LIBRARY_DESIGN.md` avant de créer le code. La bibliothèque ne remplacera pas l'API transactionnelle du moteur et ne prétendra pas sécuriser une mutation directe de Pokémon.
+La première tranche de cette bibliothèque est maintenant dans la PR [#6](https://github.com/rakmahefa/G1R-Mods/pull/6) : chargeur local allowlisté via `mod:read` + `load`, validation, résultats, cache FIFO borné, persistance versionnée sur `mod.save` et diagnostics opt-in. Aucun gameplay n'est activé. Les tests headless s'exécutent via le SDK officiel et la CI du commit initial de la PR est verte. La bibliothèque ne remplace pas l'API transactionnelle du moteur et ne sécurise pas une mutation directe de Pokémon.
 
 
 ## 5 bis. Résultats consignés le 30 octobre 2026
@@ -121,7 +122,7 @@ La CI du commit de fusion `3e2f187cbb1112fa8d39b833b51e035a997133fc` a réussi :
 - `make smoke-template` : réussi, 3/3 contrôles du template.
 - `make package` : réussi, aucun mod à empaqueter.
 
-Il s'agit du résultat CI, pas d'une exécution locale dans cette session. La baseline est propre pour le dépôt documentaire/template, mais le premier mod et ses tests restent à créer.
+Il s'agit du résultat CI historique, pas d'une exécution locale. Depuis, le premier mod et sa suite de tests sont présents dans la branche de la PR #6 ; leur résultat CI est consigné ci-dessous.
 
 ### Constats du code moteur épinglé
 
@@ -130,25 +131,27 @@ Il s'agit du résultat CI, pas d'une exécution locale dans cette session. La ba
 - `mod.game.session` ne doit pas être muté directement : cela couple le mod aux structures privées du moteur.
 - Le chargement de fichiers locaux est possible dans le sandbox avec `mod:read` + `load`, dans le même environnement que le module principal.
 
-### Changement documentaire en cours
+### Implémentation de la bibliothèque — PR #6
 
-La PR [#5](https://github.com/rakmahefa/G1R-Mods/pull/5) ajoute la conception de la bibliothèque interne et les garde-fous. Elle est en brouillon ; son code n'est pas implémenté et son CI doit être vérifiée avant fusion.
+- PR [#6 — isolated API 3 library foundation](https://github.com/rakmahefa/G1R-Mods/pull/6).
+- Branche : `feat/pokemon-rpg-economy-library-foundation`.
+- Commit testé : `91daf575531cdc21b9e36f0272d7d2dd6ff7565a`.
+- Statut : ouverte, en brouillon, fusionnable au dernier contrôle.
+- 13 fichiers ajoutés ; aucun changement au sous-module moteur.
 
-## 6. Première tâche recommandée à la prochaine session
+La CI [#41044501372](https://github.com/rakmahefa/G1R-Mods/actions/runs/41044501372) est **réussie** : syntaxe shell/Python, `make check`, `make test`, `make smoke-template` et `make package`. Le test du mod charge réellement le manifeste/API 3 dans le SDK Gen 3 headless, puis teste les modules et leurs chemins d'échec.
 
-**Commencer par une session d'audit technique et de prototypes, pas par l'implémentation complète du jeu.**
+Le code ne change encore aucun comportement de jeu. Cette CI ne valide ni les interactions en jeu ni les prototypes EXP/EV ou les transactions Pokémon.
 
-Séquence :
-1. Synchroniser `main` et les sous-modules ; vérifier le merge commit et la révision de Gen1Recomp.
-2. Lire `docs/development.md`, `docs/architecture.md`, le template et les tests headless du repo.
-3. Exécuter et consigner `make bootstrap`, `make check`, `make test`, `make smoke-template`.
-4. Créer une branche dédiée au socle de bibliothèque et aux preuves de faisabilité.
-5. Écrire un test headless minimal de `battle.exp_award` et vérifier l'absence d'EXP **et** d'EV.
-6. Auditer le code du moteur et proposer le contrat de l'API transactionnelle Pokémon (identité stable, mutations couvertes, consommation, rollback, sauvegarde, reprise).
-7. Classer chaque besoin en : API publique existante, prototype requis, extension moteur requise ou décision produit.
-8. Implémenter ensuite le chargeur local et les primitives minimales de `LIBRARY_DESIGN.md`, sans gameplay, puis les tester par le SDK headless.
+## 6. Suite recommandée
 
-Ne pas encore commencer la boucle économique complète. Ne pas modifier `third_party/gen1recomp/` silencieusement et ne pas dépendre de fonctions internes.
+1. Relire la PR #6 et garder le statut brouillon jusqu'à la revue/fusion décidée.
+2. Écrire le test headless de `battle.exp_award` et vérifier l'absence conjointe d'EXP et d'EV, y compris Exp Share et combats dresseurs/sauvages.
+3. Définir puis documenter le contrat moteur transactionnel requis pour muter/consommer un Pokémon (identité stable, préconditions, commit/rollback, persistance et reprise).
+4. Prototyper séparément les niveaux de dresseurs, les objets de combat et les signaux de soin/PC, selon les blocages recensés.
+5. Ne commencer les services économiques qu'après preuve technique des opérations dont ils dépendent.
+
+Ne pas modifier `third_party/gen1recomp/` silencieusement et ne jamais accéder à `mod.game.session` ou à des modules `src.*` depuis le mod.
 
 ## 7. Commandes de reprise
 
@@ -188,4 +191,4 @@ Ne pas supposer que les commandes passent : rapporter leurs sorties réelles.
 - Mettre à jour ce handoff à la fin de la session.
 - Si un détail n'est pas prouvé dans la révision moteur, le noter comme inconnu plutôt que le déduire.
 
-**Objectif de la prochaine session :** établir la baseline reproductible du repo et valider les deux premiers risques techniques — suppression EXP/EV et contrat de transaction Pokémon — pour transformer les points bloquants du design en tâches moteur/API précises.
+**Objectif de reprise :** poursuivre les preuves headless de faisabilité moteur, en commençant par EXP/EV, puis formaliser l'API publique transactionnelle Pokémon avant les fonctionnalités économiques.

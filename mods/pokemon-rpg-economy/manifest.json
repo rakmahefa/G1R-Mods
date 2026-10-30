@@ -1,0 +1,18 @@
+{
+  "id": "pokemon-rpg-economy",
+  "name": "Pokémon RPG Economy",
+  "version": "0.1.0",
+  "api": 3,
+  "games": [
+    "emerald"
+  ],
+  "entry": "main.lua",
+  "profile": "content",
+  "category": "MECHANIC",
+  "game_version": ">=0.0.0-dev <1.0.0",
+  "priority": 100,
+  "dependencies": [],
+  "optional_dependencies": [],
+  "conflicts": [],
+  "description": "An Emerald-only RPG economy mod. This first release establishes its isolated library and does not yet change gameplay."
+}
