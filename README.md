@@ -27,6 +27,8 @@ LuaJIT and Python 3 are required locally. The DEV workflow installs its own LuaJ
 
 See [docs/architecture.md](docs/architecture.md), [docs/development.md](docs/development.md), and [docs/compatibility.md](docs/compatibility.md).
 
+The first mod's **Pokémon Emerald RPG economy** design dossier is in [docs/mods/pokemon-rpg-economy/](docs/mods/pokemon-rpg-economy/README.md). It is a design-only proposal; implementation has not started.
+
 ## Design rules
 
 1. Keep each mod self-contained in `mods/<mod-id>/`; do not nest mods by category.
