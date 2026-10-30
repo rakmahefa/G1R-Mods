@@ -21,6 +21,16 @@ Livrables :
 
 Critère de sortie : aucun désaccord sur les règles qui modifient la progression ou détruisent volontairement un Pokémon.
 
+### Phase 0.5 — Bibliothèque interne robuste
+
+Livrables :
+- chargeur local de modules via `mod:read` + `load`, table blanche, cache et détection de cycles ;
+- modules communs minimaux de validation, résultat, persistance versionnée, cache borné et diagnostics ;
+- tests d'import, d'isolation, d'entrées incorrectes, de module manquant, d'erreur et de reprise ;
+- vérification qu'aucune API privée ou dépendance à un autre mod n'est requise.
+
+Critère de sortie : le socle reste dans le sandbox, n'expose aucune globale, n'exécute aucun travail par frame et passe les tests headless et le packaging. Les opérations atomiques sur les Pokémon ne sont pas simulées par cette bibliothèque.
+
 ### Phase 1 — Prototypes techniques moteur/API
 
 Prouver les éléments bloquants :
@@ -109,6 +119,19 @@ Critère de sortie : tous les boss sont facultatifs, non agressifs, correctement
 | Emerald | Tous les systèmes spécifiques (baies, Pokéblocs, concours, bases secrètes, Match Call, Frontier) restent cohérents avec leurs sauvegardes et leurs scripts natifs |
 | Désactivation | Le comportement vanilla revient sans laisser d'état corrompu |
 
+## 3 bis. Tests spécifiques de la bibliothèque
+
+| Module / garde-fou | Vérifications |
+|---|---|
+| Chargeur local | liste blanche, module absent, source invalide, exception, cache, cycle et rejet de chemin |
+| Validation / résultats | NaN, infini, entiers, bornes, enum, taille de liste et codes d'erreur stables |
+| Persistance | données corrompues, version ancienne, migration, échec d'écriture, reprise |
+| Transactions mod-owned | double callback, reprise après fermeture et identifiant d'opération déjà finalisé ; ne pas simuler une mutation moteur atomique |
+| Cache | taille maximale, hit/miss, expiration/invalidation de contexte et absence de référence live |
+| Diagnostics | désactivation, rate-limit et absence de spam par frame |
+| Isolation | pas de globale, pas de `src.*`, pas de monkey-patching, pas de dépendance implicite à un autre mod |
+
+
 ## 4. Tests headless et tests en jeu
 
 ### Tests headless
@@ -159,4 +182,7 @@ Un tableau de simulation économique devra ensuite vérifier que les revenus att
 - Pas de reset involontaire de flags de l'histoire originale.
 - Pas de boss imposé.
 - Pas de dépendance à une API interne non documentée.
+- Pas de boucle de polling ou de travail lourd à chaque frame.
+- Aucun état global partagé ou cache non invalidable.
+- Tous les modules locaux restent dans le sandbox et sont chargés par une liste blanche.
 - Toutes les règles importantes sont visibles et expliquées au joueur.
