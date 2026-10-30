@@ -108,7 +108,7 @@ def build_one(mod_dir: Path, output_dir: Path) -> Path:
     if bundle is not None:
         if any(rel == bundle_output for rel, _, _ in entries):
             raise SystemExit(f"{mod_id}: generated bundle path already exists in source files")
-        entries.append((bundle_output, bundle_text.encode("utf-8"), 0o100644)
+        entries.append((bundle_output, bundle_text.encode("utf-8"), 0o100644))
     entries.sort(key=lambda row: row[0])
 
     output_dir.mkdir(parents=True, exist_ok=True)
