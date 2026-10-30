@@ -5,7 +5,7 @@
 **Jeu cible :** Pokémon Emerald uniquement  
 **Dépôt :** [rakmahefa/G1R-Mods](https://github.com/rakmahefa/G1R-Mods)  
 **Dossier de conception :** [README](README.md)  
-**Point de départ :** PR [#3](https://github.com/rakmahefa/G1R-Mods/pull/3), fusionnée dans `main` par le commit `8326759ab9316907ca453e5d0d095e6221805201`.
+**Historique documentaire :** PR [#3](https://github.com/rakmahefa/G1R-Mods/pull/3) (design initial) et PR [#4](https://github.com/rakmahefa/G1R-Mods/pull/4) (specification et handoff) sont fusionnées dans `main` ; le commit de référence de la planification est `3e2f187cbb1112fa8d39b833b51e035a997133fc`.
 
 ---
 
@@ -89,7 +89,15 @@ Règles d'éligibilité des dix espèces :
 6. **Headless en premier.** La logique économique, les règles, les tirages et les transitions d'état doivent être testés sans ROM avec le SDK fourni.
 7. **Validation en jeu ensuite.** Les scripts Emerald, menus natifs, Centres Pokémon, PC, combats, cartes et animations nécessitent des vérifications en jeu.
 8. **Livrables petits et vérifiables.** Une étape ne passe pas à la suivante tant que ses critères de sortie ne sont pas satisfaits.
+9. **Robustesse par conception.** Toute fonctionnalité sensible passe par la bibliothèque interne, les validations, les contrats de persistance et les tests de non-régression ; aucune optimisation non mesurée ou dépendance moteur privée n'est admise.
 
+### 3.1 Bibliothèque interne et isolation du mod
+
+Le mod doit disposer d'une petite bibliothèque privée sous `mods/pokemon-rpg-economy/lib/`. Elle centralise le chargement local des modules, la validation, les résultats/erreurs, la persistance versionnée, les caches bornés et les diagnostics.
+
+Ses règles détaillées sont définies dans [LIBRARY_DESIGN.md](LIBRARY_DESIGN.md). Le chargement local doit utiliser uniquement `mod:read` et `load` dans le sandbox du mod, avec une table blanche de chemins autorisés. Aucun `require("src.*")`, accès aux internals, monkey-patching, globale ou dépendance à un autre mod ne sera accepté.
+
+La bibliothèque doit rester petite et pure autant que possible. Elle s'appuie sur les événements, hooks et services officiels du moteur au lieu de les réimplémenter. Elle ne prétend pas garantir le rollback d'une opération Pokémon si l'API moteur ne fournit pas cette garantie.
 ## 4. Dépendances techniques prioritaires
 
 Les constats ci-dessous proviennent de `TECHNICAL_FEASIBILITY.md` et doivent être revalidés sur la révision moteur effectivement épinglée avant toute conclusion nouvelle.
@@ -155,6 +163,25 @@ Tâches :
 **Critères de sortie :**
 - `make check`, `make test` et `make smoke-template` donnent un état de référence exploitable (les échecs préexistants sont documentés) ;
 - aucune règle destructive ou de progression n'est laissée implicite.
+
+### Phase 0.5 — Socle de bibliothèque interne
+
+**Objectif :** créer le minimum de structure commune pour que les prototypes puis les fonctionnalités n'introduisent pas chacun leur propre chargement, validation ou gestion d'état.
+
+Tâches :
+- ajouter le petit chargeur local documenté dans `LIBRARY_DESIGN.md`, avec liste blanche, cache, détection de cycles et erreurs explicites ;
+- prouver le chargement de modules via `mod:read` + `load` dans le SDK headless ;
+- ajouter seulement les primitives utilisées immédiatement : validation, format de résultat, diagnostics contrôlés et accès de persistance versionné ;
+- garder le cache borné et limité aux données immuables ; ne pas créer de cache d'équipe/session ;
+- ajouter les tests d'import, d'isolation, d'entrées invalides, de module absent et de reprise ;
+- vérifier que le mod ne demande aucune permission `engine_internals` et ne dépend d'aucun autre mod.
+
+**Critères de sortie :**
+- le loader refuse tout module/chemin non autorisé et ne partage aucun état global ;
+- chaque module charge dans le sandbox normal du mod ;
+- les tests headless passent et le package ne contient pas les suites de test ;
+- aucune fonctionnalité gameplay n'est implémentée dans cette étape.
+
 
 ### Phase 1 — Prototypes techniques API 3 / moteur
 
@@ -396,12 +423,13 @@ La densité cible de boss (un miniboss par ville, deux miniboss + un boss sauvag
 ## 8. Prochaine session — première séquence recommandée
 
 1. Cloner/synchroniser le dépôt et les sous-modules depuis `main`, puis vérifier le commit courant et la révision moteur.
-2. Lire `docs/development.md`, `docs/architecture.md`, le template, le SDK headless et les trois documents techniques du mod.
+2. Lire `docs/development.md`, `docs/architecture.md`, le template, le SDK headless et les documents techniques du mod, notamment `LIBRARY_DESIGN.md`.
 3. Exécuter `make bootstrap`, `make check`, `make test`, `make smoke-template` et consigner le résultat réel.
-4. Créer une branche de travail dédiée aux prototypes, pas au gameplay complet.
+4. Créer une branche de travail dédiée au socle de bibliothèque et aux prototypes, pas au gameplay complet.
 5. Commencer par une preuve headless minimale pour `battle.exp_award` (EXP et EV ensemble).
 6. En parallèle, rédiger le contrat attendu de l'API de transaction Pokémon : identifiant stable, opérations supportées, invariants, rollback, sauvegarde et reprise.
 7. Établir un tableau « API publique / prototype / extension requise / décision produit » avant de démarrer la Phase 2.
+8. Construire la bibliothèque interne minimale décrite dans `LIBRARY_DESIGN.md`, puis la faire passer par lint, SDK headless et packaging.
 
 **Ne pas commencer la construction complète de l'overhaul avant d'avoir clarifié la dépendance majeure de mutation/consommation des Pokémon.**
 
