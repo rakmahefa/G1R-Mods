@@ -22,7 +22,7 @@ Le mod est un **overhaul de systèmes** : il touche à la progression, l'économ
 
 ## Jeu cible retenu
 
-<badge>Décision validée : Emerald uniquement</badge>
+**Décision validée : Emerald uniquement.**
 
 Le premier périmètre cible exclusivement **Pokémon Emerald** et la région de Hoenn. FireRed, LeafGreen, Ruby et Sapphire sont hors périmètre pour cette première version. Aucune compatibilité avec ces jeux ne sera annoncée.
 
