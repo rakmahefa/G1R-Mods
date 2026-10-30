@@ -2,15 +2,11 @@
 
 Ce document rassemble les points qui restent à décider avant l'implémentation. Les propositions marquées « recommandation » constituent un point de départ, pas une décision prise à la place du joueur.
 
-## 1. Jeu de départ
+## 1. Jeu cible — décision validée
 
-**Question :** quel jeu doit recevoir la première version jouable ?
+**Pokémon Emerald uniquement.** Cette décision est confirmée. FireRed, LeafGreen, Ruby et Sapphire ne sont pas des cibles de la première version et ne doivent pas apparaître dans le manifeste du mod.
 
-- FireRed (recommandation pour le premier prototype Kanto).
-- FireRed et LeafGreen en même temps.
-- Emerald.
-
-La recommandation actuelle est FireRed en premier, puis LeafGreen après une vérification de parité. Emerald doit être traité comme une adaptation de contenu distincte.
+L'analyse des systèmes, la carte du contenu, les équipes de dresseurs, les contrats de capture, les PNJ et les tests seront construits pour Hoenn/Emerald.
 
 ## 2. Plafond de niveau
 
@@ -113,15 +109,17 @@ La première option est très exigeante : elle peut demander 252 Pokémon pour o
 
 ## 9. Day Care
 
-**Questions :**
-- Les cinq œufs sont-ils consommés en une seule transaction ?
-- La liste de dix espèces est-elle fixe, ou change-t-elle par palier ?
-- Le Pokémon niveau 1 est-il obligatoire, même si le moteur suit normalement la règle d'éclosion niveau 5 de la génération III ?
-- Les Pokémon reçus par échange d'œufs peuvent-ils être utilisés comme donneurs ?
+**Décision validée :** cinq œufs sont consommés en une transaction et donnent un Pokémon de niveau 5.
 
-**Recommandation :** une liste de dix espèces non légendaires et de premier stade, contrôlée par palier, afin d'éviter une récompense aléatoire disproportionnée.
+Restent à définir :
+- la liste des dix espèces possibles ;
+- une sélection fixe, par rotation ou dépendante du palier ;
+- le traitement des Pokémon reçus par cet échange lorsqu'ils sont proposés comme donneurs ;
+- si des protections supplémentaires s'appliquent aux espèces déjà possédées.
 
-## 10. Matériaux de boss
+**Recommandation :** la sélection contient uniquement des espèces non légendaires et non évoluées de premier stade, avec une composition adaptée au palier de guilde. Le Pokémon récompense est créé directement au niveau 5, sans passer par un œuf à éclore.
+
+## 10. Systèmes propres à Emerald — ajouts recommandés
 
 - Les matériaux sont-ils des objets visibles dans le sac ou un inventaire privé de guilde ?
 - Le crafting d'un objet tenu demande-t-il seulement les matériaux, ou aussi des Pokédollars et un Pokémon donneur ?
@@ -129,7 +127,7 @@ La première option est très exigeante : elle peut demander 252 Pokémon pour o
 
 **Recommandation technique :** commencer avec un inventaire privé du mod et une liste de recettes claire ; décider plus tard si les matériaux doivent apparaître dans le sac natif.
 
-## 11. Volume de contenu
+## 11. Matériaux de boss
 
 La densité demandée représente un miniboss par ville et quatre rencontres par segment de route. Elle peut produire un grand nombre de combats sur toute la région.
 
@@ -137,11 +135,11 @@ La densité demandée représente un miniboss par ville et quatre rencontres par
 
 **Recommandation :** conserver la densité comme cible, mais autoriser une adaptation locale lorsque la carte ne peut accueillir quatre rencontres distinctes sans répétition.
 
-## 12. Identité du mod
+## 12. Volume de contenu
 
 Le nom définitif, le style visuel, le nom de la guilde et les noms des personnages ne sont pas encore définis. Le dossier utilise uniquement un identifiant technique de travail.
 
-## 13. Décisions bloquantes avant le code
+## 13. Identité du mod
 
 Les décisions prioritaires sont :
 1. le jeu exact ;
