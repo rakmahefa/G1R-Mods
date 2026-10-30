@@ -1,0 +1,38 @@
+# Local environments and tool caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.cache/
+.cache-*/
+.DS_Store
+Thumbs.db
+
+# Generated outputs
+/build/
+/dist/
+*.zip
+*.modpkg
+*.tmp
+
+# Per-developer settings
+.env
+.env.*
+!.env.example
+.idea/
+.vscode/
+
+# Game dumps, saves, and generated/private data (never commit these)
+*.gb
+*.gbc
+*.gba
+*.nds
+*.sav
+*.srm
+*.state
+baseroms/
+asset_packs/
+data/generated/
+assets/generated/

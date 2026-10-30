@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main, dev]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-\${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Repository checks and ROM-free mod tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository and pinned engine submodule
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install Python tooling
+        run: python -m pip install -r requirements-dev.txt
+
+      # Reuse the upstream, commit-pinned LuaJIT installer and its Actions cache.
+      - name: Set up upstream LuaJIT
+        uses: ./third_party/gen1recomp/.github/actions/setup-luajit
+
+      - name: Check shell and Python syntax
+        run: |
+          set -euo pipefail
+          for script in scripts/*.sh; do bash -n "$script"; done
+          python -m compileall -q scripts
+
+      - name: Check repository and lint every mod
+        run: make check
+
+      - name: Run headless mod tests
+        run: make test
+
+      - name: Verify installable ZIP packaging
+        run: make package

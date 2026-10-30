@@ -1,0 +1,2 @@
+# Keep test code out of the installable mod package.
+tests/__MOD_ID___test.lua

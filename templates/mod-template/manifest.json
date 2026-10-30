@@ -1,0 +1,18 @@
+{
+  "id": "__MOD_ID__",
+  "name": "__MOD_NAME__",
+  "version": "0.1.0",
+  "api": 3,
+  "games": [
+    "gen1"
+  ],
+  "entry": "main.lua",
+  "profile": "content",
+  "category": "OTHER",
+  "game_version": ">=0.0.0-dev <1.0.0",
+  "priority": 100,
+  "dependencies": [],
+  "optional_dependencies": [],
+  "conflicts": [],
+  "description": "A Gen1Recomp mod developed in the G1R-Mods monorepo."
+}

@@ -1,0 +1,67 @@
+name: DEV artifacts
+
+on:
+  push:
+    branches: [dev]
+  workflow_dispatch:
+    inputs:
+      mod_id:
+        description: "Optional mod ID to package (leave blank for every mod)"
+        required: false
+        type: string
+
+concurrency:
+  group: dev-artifacts-\${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Validate and package development mods
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository and pinned engine submodule
+        uses: actions/checkout@v7
+        with:
+          fetch-depth: 1
+          submodules: recursive
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install Python tooling
+        run: python -m pip install -r requirements-dev.txt
+
+      - name: Set up upstream LuaJIT
+        uses: ./third_party/gen1recomp/.github/actions/setup-luajit
+
+      - name: Check repository and lint every mod
+        run: make check
+
+      - name: Run headless mod tests
+        run: make test
+
+      - name: Build development ZIP packages
+        env:
+          MOD_ID: \${{ inputs.mod_id }}
+        run: |
+          set -euo pipefail
+          if [ -n "\${MOD_ID:-}" ]; then
+            ./scripts/package.sh "$MOD_ID"
+          else
+            make package
+          fi
+
+      - name: Upload installable development packages
+        uses: actions/upload-artifact@v7
+        with:
+          name: g1r-mods-\${{ github.ref_name }}-\${{ github.sha }}
+          path: dist/**
+          if-no-files-found: error
+          retention-days: 14

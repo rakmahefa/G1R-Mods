@@ -1,0 +1,4 @@
+[submodule "third_party/gen1recomp"]
+	path = third_party/gen1recomp
+	url = https://github.com/bryanthaboi/gen1recomp.git
+	branch = dev

@@ -1,0 +1,13 @@
+-- Human-facing metadata. Keep this in sync with the mod's README and changelog.
+return {
+  summary = "TODO: describe the mod in one sentence.",
+  author = "Replace with your handle",
+  tags = { "quality-of-life" },
+  differences = {
+    changed = {},
+    added = {},
+    known = { "Initial development scaffold; document remaining limitations." },
+  },
+  credits = {},
+  compat = { engine = ">=0.0.0-dev <1.0.0", modApi = 3 },
+}
