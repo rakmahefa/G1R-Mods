@@ -53,6 +53,7 @@ Les combats ordinaires ne donnent ni EXP ni EV. Ils restent néanmoins utiles po
 - [TECHNICAL_FEASIBILITY.md](TECHNICAL_FEASIBILITY.md) — état réel de l'API 3 et extensions moteur nécessaires.
 - [ROADMAP_AND_TEST_PLAN.md](ROADMAP_AND_TEST_PLAN.md) — étapes de conception, prototypes et critères d'acceptation.
 - [RECOMMENDED_FEATURES.md](RECOMMENDED_FEATURES.md) — ajouts recommandés autour des systèmes propres à Hoenn.
+- [OPEN_DECISIONS.md](OPEN_DECISIONS.md) — arbitrages encore à valider avant le code.
 
 ## État d'avancement
 
