@@ -5,7 +5,7 @@
 **Jeu cible :** Pokémon Emerald uniquement  
 **Dépôt :** [rakmahefa/G1R-Mods](https://github.com/rakmahefa/G1R-Mods)  
 **Dossier de conception :** [README](README.md)  
-**Historique documentaire :** PR [#3](https://github.com/rakmahefa/G1R-Mods/pull/3) (design initial) et PR [#4](https://github.com/rakmahefa/G1R-Mods/pull/4) (specification et handoff) sont fusionnées dans `main` ; le commit de référence de la planification est `3e2f187cbb1112fa8d39b833b51e035a997133fc`.
+**Historique :** PRs [#3](https://github.com/rakmahefa/G1R-Mods/pull/3), [#4](https://github.com/rakmahefa/G1R-Mods/pull/4), [#5](https://github.com/rakmahefa/G1R-Mods/pull/5), [#6](https://github.com/rakmahefa/G1R-Mods/pull/6) et [#7](https://github.com/rakmahefa/G1R-Mods/pull/7) fusionnées ; main actuel après #7 : `a359f7c17df1b9240e43fbf385cf849bc9805993`. La proposition transactionnelle fait l'objet de la PR [#8](https://github.com/rakmahefa/G1R-Mods/pull/8), encore en revue.
 
 ---
 
@@ -15,7 +15,7 @@ Ce document transforme le dossier de conception accepté en un plan de réalisat
 
 Le but n'est pas de coder toutes les fonctionnalités d'un seul coup. La priorité est de prouver les points où l'API publique Gen1Recomp ne suffit pas encore, puis de construire une première boucle de jeu jouable sans corruption de sauvegarde, perte involontaire de Pokémon, duplication de récompenses ou blocage économique.
 
-**État actuel :** le design est documenté et fusionné. Aucun code de gameplay du mod n'a encore été implémenté. Ce plan ne constitue pas une autorisation de contourner les limites de l'API publique ou de modifier directement les données internes du moteur.
+**État actuel :** le squelette du mod, sa bibliothèque privée et la règle de suppression EXP/EV en combat sont implémentés et fusionnés. Les systèmes économiques ne sont pas encore implémentés ; plusieurs restent dépendants d'une API moteur transactionnelle. Ce plan n'autorise aucun contournement des limites de l'API publique.
 
 ## 2. Périmètre et règles de conception verrouillées
 
@@ -104,12 +104,12 @@ Les constats ci-dessous proviennent de `TECHNICAL_FEASIBILITY.md` et doivent êt
 
 | Capacité | État recensé | Conséquence pour le plan |
 |---|---|---|
-| Bloquer EXP et EV via `battle.exp_award` | Prototype dans PR [#7](https://github.com/rakmahefa/G1R-Mods/pull/7) : baseline native puis suppression EXP/EV en combats sauvages et dresseurs, avec Exp. Share | CI #41045753060 réussie, 85/85 checks ; boss/miniboss et validation en jeu non couverts |
+| Bloquer EXP et EV via `battle.exp_award` | Implémenté et fusionné via PR [#7](https://github.com/rakmahefa/G1R-Mods/pull/7) ; test baseline puis suppression EXP/EV en combats sauvages/dresseurs, y compris Exp. Share | CI #41045978256 réussie, 85/85 checks ; cas modificateurs et validation en jeu non couverts |
 | Modifier les équipes d'un dresseur via `trainer.party` | API publique identifiée ; le hook ne reçoit pas directement le mapId | Prototype de suivi de carte et de niveaux |
 | Ajouter PNJ et écrans | API publique identifiée | Prototype UI / cycle de vie session |
 | Sauvegarder des données du mod | `mod.save` / `mod.storage` documentés | Définir un schéma persistant versionné |
 | Soins effectifs / PC effectif | Pas d'événement public explicite identifié | Prototype de détection Emerald ; aucun reset sur simple ouverture |
-| Consommer un Pokémon d'équipe ou de boîte | Pas d'opération publique générale identifiée | Extension moteur sûre et transactionnelle |
+| Consommer un Pokémon d'équipe ou de boîte | Pas d'opération publique générale identifiée ; proposition de références opaques et transactions dans POKEMON_TRANSACTION_API.md / PR #8 | Extension moteur requise avant les services |
 | Modifier niveau, nature, IV, EV, moves ou évolution d'un Pokémon choisi | API publique générique non identifiée | Extension moteur / preuves par opération |
 | Lire et consommer les Pokémon des boîtes | API publique non identifiée | Décider équipe seule ou boîte + équipe |
 | Filtrer les objets de sac dans les combats | Hook public spécifique manquant dans l'audit | Extension moteur requise pour blocage complet |
@@ -170,7 +170,7 @@ Tâches :
 
 **Objectif :** créer le minimum de structure commune pour que les prototypes puis les fonctionnalités n'introduisent pas chacun leur propre chargement, validation ou gestion d'état.
 
-La première tranche est présente dans `mods/pokemon-rpg-economy/` : modules communs, manifeste Emerald/API 3 et tests SDK headless. La CI #41044501372 a passé `make check`, `make test`, `make smoke-template` et `make package` sur le commit `91daf575531cdc21b9e36f0272d7d2dd6ff7565a`. La PR #6 reste en brouillon ; la validation en jeu n'a pas été faite.
+La première tranche est présente dans `mods/pokemon-rpg-economy/` et fusionnée dans main via PR #6. Elle inclut les modules communs, le manifeste Emerald/API 3 et les tests SDK headless. La CI de PR #6 a passé `make check`, `make test`, `make smoke-template` et `make package`. Le hook de suppression EXP/EV a ensuite été ajouté et fusionné via PR #7. La validation en jeu n'a pas encore été faite.
 
 Tâches :
 - ajouter le petit chargeur local documenté dans `LIBRARY_DESIGN.md`, avec liste blanche, cache, détection de cycles et erreurs explicites ;
@@ -193,7 +193,7 @@ Tâches :
 
 #### 1A. EXP et EV
 
-**Preuve headless partielle réussie — PR [#7](https://github.com/rakmahefa/G1R-Mods/pull/7), CI [#41045753060](https://github.com/rakmahefa/G1R-Mods/actions/runs/41045753060), 85/85 checks.**
+**Implémenté et fusionné — PR [#7](https://github.com/rakmahefa/G1R-Mods/pull/7), CI [#41045978256](https://github.com/rakmahefa/G1R-Mods/actions/runs/41045978256), 85/85 checks.**
 
 - Le test établit d'abord une baseline sans mod où `Experience.awardFoe` accorde EXP et EV.
 - Avec le mod chargé par le SDK API 3, il vérifie le blocage de l'EXP et des EV pour le participant et le détenteur d'Exp. Share.
@@ -212,6 +212,8 @@ Tâches :
 **Sortie :** prototype de mise à l'échelle déterministe sans fuite de contexte de carte.
 
 #### 1C. Transactions Pokémon (bloquant majeur)
+
+**Statut :** proposition de contrat rédigée dans [POKEMON_TRANSACTION_API.md](POKEMON_TRANSACTION_API.md), PR [#8](https://github.com/rakmahefa/G1R-Mods/pull/8) en revue ; aucune API de ce type n'existe encore dans le sous-module épinglé.
 
 Définir et prouver une API publique, ou préparer une proposition moteur, qui permette au minimum :
 - identifier de façon stable un Pokémon dans l'équipe ou une boîte ;

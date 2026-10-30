@@ -23,8 +23,8 @@ La base du mod reste Portable API 3. Les extensions moteur doivent être propos�
 
 | Système | Support existant identifié | Évaluation |
 |---|---|---|
-| Supprimer l'EXP des combats | Hook public `battle.exp_award` ; PR [#7](https://github.com/rakmahefa/G1R-Mods/pull/7) ajoute l'interception exclusive sans `next` et le test headless | **Preuve headless réussie** sur combats sauvages et dresseurs ; CI #41045753060 verte |
-| Supprimer les EV des combats | `Pokemon.gainEVs` s'exécute avant `Experience.apply` dans `Experience.awardFoe` ; le hook global supprime donc les deux appels, pas seulement le montant d'EXP | **Preuve headless réussie** pour le participant et le détenteur d'Exp. Share ; cas Pokérus/objets multiplicateurs et jeu réel à compléter |
+| Supprimer l'EXP des combats | Hook public `battle.exp_award` ; interception exclusive sans `next`, fusionnée via PR [#7](https://github.com/rakmahefa/G1R-Mods/pull/7) | **Preuve headless réussie** sur combats sauvages et dresseurs ; CI #41045978256 verte |
+| Supprimer les EV des combats | `Pokemon.gainEVs` s'exécute avant `Experience.apply` dans `Experience.awardFoe` ; le hook global supprime donc les deux appels, pas seulement le montant d'EXP | **Preuve headless réussie** pour le participant et le détenteur d'Exp. Share ; Pokérus/objets multiplicateurs et jeu réel restent à compléter |
 | Modifier les équipes des dresseurs | Hook trainer.party qui reçoit la classe, l'identifiant du dresseur et son équipe ; il accepte une équipe transformée en retour | Faisable côté API publique |
 | Réduire les paiements des dresseurs | Les données des dresseurs supportent baseMoney | Faisable pour le montant de base |
 | Détecter les combats et les résultats | Événements battle.started, battle.ended et world.trainer_engaged | Faisable côté API publique |
@@ -34,7 +34,7 @@ La base du mod reste Portable API 3. Les extensions moteur doivent être propos�
 | Déclencher un boss sauvage | mod.world:startWildBattle est documenté | Faisable pour un boss sauvage |
 | Déclencher un boss dresseur entièrement personnalisé | Scripts/équipes de dresseur disponibles, mais la composition et le démarrage précis doivent être validés avec le jeu cible | Prototype requis |
 | Réinitialiser les dresseurs après un soin ou le PC | Événements génériques screen.pushed, screen.popped, world.interacted et script.command ; pas d'événement public dédié « soin terminé » identifié | Prototype requis |
-| Vendre et consommer un Pokémon du joueur | mod.world:party retourne des données détachées ; il n'existe pas d'opération publique générale pour consommer un membre de l'équipe ou un Pokémon de boîte | Extension moteur requise |
+| Vendre et consommer un Pokémon du joueur | Les façades actuelles ne proposent pas de référence stable ni d'opération générique de lecture/mutation/consommation | Extension moteur requise ; contrat proposé dans [POKEMON_TRANSACTION_API.md](POKEMON_TRANSACTION_API.md) |
 | Entraîner un Pokémon en niveau | Les scripts peuvent manipuler certaines données globales, mais pas offrir une opération publique transactionnelle de modification de niveau sur un Pokémon choisi | Extension moteur requise |
 | Modifier nature, IV, EV | Le moteur possède ces données et des fonctions internes, mais le mod ne dispose pas d'une API publique générique de mutation sûre | Extension moteur requise |
 | Enseigner un move et consommer un donneur | Données de learnset et d'egg-moves disponibles, mais pas d'opération publique de mutation/consommation de deux Pokémon | Extension moteur requise |
@@ -56,7 +56,7 @@ Dans le moteur étudié, le flux d'attribution d'une récompense de combat appel
 
 - faire retourner zéro à exp.gain n'empêche pas les EV ;
 - utiliser battle.exp_award pour ne pas distribuer la récompense (et ne pas appeler le chemin d'attribution) empêche le gain d'EXP et l'appel d'attribution des EV ;
-- le test de PR #7 vérifie une baseline native positive puis l'absence d'EXP/EV sur combats sauvages et dresseurs, pour le participant et le détenteur d'Exp. Share ; run CI [#41045753060](https://github.com/rakmahefa/G1R-Mods/actions/runs/41045753060), **85/85 checks passed** ;
+- le test fusionné dans PR #7 vérifie une baseline native positive puis l'absence d'EXP/EV sur combats sauvages et dresseurs, pour le participant et le détenteur d'Exp. Share ; run CI [#41045978256](https://github.com/rakmahefa/G1R-Mods/actions/runs/41045978256), **85/85 checks passed** ;
 - restent à couvrir : miniboss/boss, Pokérus et objets multiplicateurs, événements/annonces de montée de niveau et validation en jeu.
 
 Références :
@@ -113,6 +113,8 @@ Il faudra donc proposer au moteur une API publique, sûre et transactionnelle, a
 - accéder aux Pokémon des boîtes pour les contrats et les services, ou décider officiellement de limiter les échanges à l'équipe.
 
 Ces opérations doivent être atomiques : si la vérification, le paiement ou la modification échoue, aucun Pokémon ni argent ne doit être perdu.
+
+La RFC [POKEMON_TRANSACTION_API.md](POKEMON_TRANSACTION_API.md), actuellement portée par la PR [#8](https://github.com/rakmahefa/G1R-Mods/pull/8), décrit une référence opaque par Pokémon, des snapshots détachés, un coordinateur de transaction englobant Pokémon/argent/sac/modData, des reçus idempotents et une reprise après panne. C'est une proposition à examiner côté moteur, pas une capacité déjà livrée. La PR #8 est distincte du code du mod et ne modifie pas le sous-module moteur.
 
 ### Clarification issue de l'audit du code moteur
 

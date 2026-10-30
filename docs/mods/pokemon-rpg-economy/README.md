@@ -1,6 +1,6 @@
 # Pokémon — RPG Economy Overhaul
 
-**Statut :** conception initiale validée (PR #3 fusionnée) ; plan d'implémentation établi ; gameplay non commencé  
+**Statut :** conception validée ; socle de bibliothèque (PR #6) et suppression EXP/EV en combat (PR #7) fusionnés ; autres systèmes gameplay en cours de faisabilité  
 **Identifiant de travail :** pokemon-rpg-economy  
 **Dépôt :** G1R-Mods  
 **Périmètre de cette documentation :** design, économie, contenu, faisabilité et plan de validation. Aucun code de mod n'est défini ici.
@@ -48,6 +48,7 @@ Les combats ordinaires ne donnent ni EXP ni EV. Ils restent néanmoins utiles po
 ## Documents
 
 - [LIBRARY_DESIGN.md](LIBRARY_DESIGN.md) — architecture de la bibliothèque privée, isolation, performances, persistance et critères de test.
+- [POKEMON_TRANSACTION_API.md](POKEMON_TRANSACTION_API.md) — RFC de références Pokémon stables et transactions atomiques côté moteur.
 - [spec.md](spec.md) — plan directeur d'implémentation, phases, dépendances techniques et critères de sortie.
 - [session_handoff.md](session_handoff.md) — état de reprise, décisions et première tâche de la prochaine session.
 
@@ -61,4 +62,4 @@ Les combats ordinaires ne donnent ni EXP ni EV. Ils restent néanmoins utiles po
 
 ## État d'avancement
 
-La vision générale est cohérente et le jeu cible est maintenant fixé à Emerald. La consommation sûre de Pokémon appartenant au joueur, les changements de nature/IV/EV/niveau, l'accès aux boîtes et le filtrage complet des objets en combat nécessitent encore une preuve de faisabilité ou une extension publique du moteur. Les systèmes Hoenn natifs constituent des opportunités de contenu, mais leur présence dans le moteur ne signifie pas que chaque opération est déjà accessible à un mod par l'API publique.
+La bibliothèque privée et le hook qui supprime l'EXP/EV des récompenses de combat sont maintenant intégrés à main. Le mod ne constitue pas encore une boucle économique jouable. La consommation sûre de Pokémon, les mutations de niveau/nature/IV/EV, les accès aux boîtes et le filtrage des objets en combat restent bloqués par des capacités publiques à prouver ou à faire ajouter au moteur. La RFC POKEMON_TRANSACTION_API.md formalise le contrat demandé ; elle n'est pas une API existante. Les systèmes Hoenn natifs constituent des opportunités de contenu, mais leur présence dans le moteur ne signifie pas que chaque opération est déjà accessible à un mod par l'API publique.
