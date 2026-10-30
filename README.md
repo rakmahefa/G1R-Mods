@@ -46,6 +46,7 @@ See [docs/architecture.md](docs/architecture.md), [docs/development.md](docs/dev
 | `make new MOD=<id>` | Create a mod from the local template |
 | `make check` | Check repository structure and run upstream `modkit lint` |
 | `make test` | Run each mod's headless LuaJIT test suite |
+| `make smoke-template` | Exercise template creation, lint, SDK loading, and ZIP packaging |
 | `make package` | Build deterministic ZIP files in `dist/` |
 | `make update-engine` | Move to upstream `dev` (review before committing) |
 | `make clean` | Remove local outputs |

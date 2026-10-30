@@ -124,6 +124,9 @@ def main() -> int:
     mods = load_mods(args.mod)
     args.output_dir.mkdir(parents=True, exist_ok=True)
     outputs = [build_one(mod_dir, args.output_dir) for mod_dir in mods]
+    if not outputs:
+        print("No mods discovered; no ZIP packages or checksum manifest to produce.")
+        return 0
     checksum_path = args.output_dir / "checksums.sha256"
     lines = [f"{hashlib.sha256(path.read_bytes()).hexdigest()}  {path.name}" for path in outputs]
     checksum_path.write_text("".join(line + "\n" for line in lines), encoding="utf-8")

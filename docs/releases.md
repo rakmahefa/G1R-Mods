@@ -4,7 +4,7 @@
 
 The DEV workflow builds an independent ZIP for each mod and uploads the files as a GitHub Actions artifact. The ZIP root contains `manifest.json`, the manifest entry file, and the mod's distributable assets. Tests and repository-only files are excluded.
 
-Download an artifact from the relevant DEV workflow run and install the mod ZIP through the game's mod import UI.
+Download an artifact from the relevant DEV workflow run and install the mod ZIP through the game's mod import UI. When the monorepo has no mods yet, the workflow succeeds without uploading an empty artifact; the template smoke package is temporary and is not distributed.
 
 Packages use fixed ZIP timestamps and sorted paths, making repeated builds from identical sources reproducible. `dist/checksums.sha256` contains SHA-256 hashes for the generated packages.
 
