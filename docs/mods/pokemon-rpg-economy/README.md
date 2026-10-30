@@ -1,6 +1,6 @@
 # Pokémon — RPG Economy Overhaul
 
-**Statut :** conception initiale v0.1 — à valider avant développement  
+**Statut :** conception initiale validée (PR #3 fusionnée) ; plan d'implémentation établi ; gameplay non commencé  
 **Identifiant de travail :** pokemon-rpg-economy  
 **Dépôt :** G1R-Mods  
 **Périmètre de cette documentation :** design, économie, contenu, faisabilité et plan de validation. Aucun code de mod n'est défini ici.
@@ -46,6 +46,9 @@ Les combats ordinaires ne donnent ni EXP ni EV. Ils restent néanmoins utiles po
 - Les contrats de capture doivent consommer le Pokémon remis au guichet, sans permettre les doubles paiements.
 
 ## Documents
+
+- [spec.md](spec.md) — plan directeur d'implémentation, phases, dépendances techniques et critères de sortie.
+- [session_handoff.md](session_handoff.md) — état de reprise, décisions et première tâche de la prochaine session.
 
 - [GAME_DESIGN.md](GAME_DESIGN.md) — progression, badges, règles de combat et structure de difficulté.
 - [ECONOMY.md](ECONOMY.md) — Pokédollars, contrats de capture, entraînement, services, TM, œufs et matériaux.
