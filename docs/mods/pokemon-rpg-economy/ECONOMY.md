@@ -194,19 +194,28 @@ La compatibilité doit provenir des données d'egg-moves du jeu. Le service ne d
 
 ### Échange de cinq œufs
 
-Le joueur remet cinq œufs et reçoit un Pokémon qu'il **choisit parmi dix espèces proposées par un tirage aléatoire**. L'aléatoire sert à constituer les dix options ; il ne décide pas à la place du joueur de l'espèce finalement reçue.
+Le joueur remet cinq œufs pour participer à un échange risqué. Le système tire au sort dix espèces admissibles, génère réellement un Pokémon de niveau 5 pour chacune d'elles, puis le joueur choisit l'un des dix Pokémon présentés. Le joueur choisit donc parmi dix Pokémon déjà générés, et non simplement parmi dix noms d'espèces.
 
-Règles validées :
-- les cinq œufs sont consommés en une seule transaction, uniquement après confirmation du choix ;
-- le service tire au sort dix espèces **distinctes** dans le pool des espèces admissibles ;
-- le joueur choisit exactement une espèce parmi ces dix options ;
-- l'espèce choisie est celle du Pokémon remis : aucun second tirage ne peut remplacer le choix du joueur ;
+**Avertissement obligatoire avant le lancement :** l'interface doit annoncer clairement que les cinq œufs seront consommés dès que l'échange est confirmé, qu'une annulation après ce lancement ne les rendra pas, et qu'il existe **10 % de risque de ne recevoir aucun Pokémon** (90 % de chance de recevoir le Pokémon choisi). Le joueur doit accepter explicitement ces conditions avant de lancer l'opération.
+
+Déroulement validé :
+1. Avant toute consommation, le Day Care affiche les règles, le risque de 10 % et demande une confirmation explicite.
+2. Dès que le joueur confirme et lance l'échange, les cinq œufs sont consommés de façon définitive.
+3. Le système sélectionne au hasard dix espèces **distinctes** dans le pool des espèces admissibles.
+4. Un Pokémon réel est généré pour chacune des dix espèces, directement au niveau 5, avec ses caractéristiques de génération normales.
+5. Le joueur examine les dix Pokémon générés et en choisit un.
+6. Après ce choix, le système effectue le tirage de réception : 90 % de chance de remettre exactement le Pokémon choisi ; 10 % de chance de ne remettre aucun Pokémon.
+7. Si le joueur annule après le lancement confirmé, ou si le tirage aboutit à un échec de réception, les cinq œufs restent consommés et aucun Pokémon n'est remis. Le joueur est informé du résultat ; aucun nouvel essai gratuit n'est accordé.
+
+Règles d'éligibilité :
+- les dix options doivent correspondre à dix espèces différentes ;
 - aucune espèce légendaire n'est éligible ;
 - seules les espèces au premier stade (forme de base, sans évolution préalable) sont éligibles ;
-- le Pokémon reçu est généré directement au niveau 5, et non remis sous forme d'œuf ;
-- le pool d'espèces admissibles peut être adapté au palier de progression pour préserver la valeur de l'échange.
+- le pool d'espèces admissibles peut être adapté au palier de progression ;
+- les dix Pokémon sont générés au niveau 5, pas remis sous forme d'œufs ;
+- le choix du joueur est respecté en cas de réussite : aucun second tirage ne remplace le Pokémon choisi.
 
-Le niveau 5 correspond au niveau normal d'éclosion en génération III. Le service remet donc un Pokémon déjà généré au niveau 5. Il faut préserver les règles normales de création du Pokémon (nature, IV, capacité, personnalité et capacités de départ). Les dix options doivent être distinctes et satisfaire les règles d'éligibilité. Si le joueur annule ou si le service ne peut pas garantir la réception du Pokémon, aucun œuf ne doit être consommé.
+La génération doit préserver les règles normales des Pokémon de génération III (nature, IV, capacité, personnalité et capacités de départ). La consommation des œufs et le résultat de l'opération doivent être enregistrés sans possibilité de duplication ou de nouvel essai avec les mêmes œufs.
 
 ## 11. Matériaux et objets tenus
 
