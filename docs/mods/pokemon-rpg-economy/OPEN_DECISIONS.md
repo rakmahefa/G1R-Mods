@@ -121,31 +121,45 @@ Restent à définir :
 
 ## 10. Systèmes propres à Emerald — ajouts recommandés
 
+Les systèmes ci-dessous sont des recommandations à inclure progressivement, pas des dépendances du premier prototype économique.
+
+- Rang de guilde distinct des badges : recommandé. Les badges contrôlent les niveaux ; la réputation débloque contrats, services secondaires et recettes.
+- Baies et Pokéblocs : fortement recommandé comme source de revenus non sacrificielle et activité d'exploration.
+- Concours Pokémon : recommandé en contenu secondaire, avec des récompenses de réputation, rubans et Pokédollars plutôt que des améliorations de combat.
+- Base secrète comme quartier général : recommandé, sous réserve de vérifier si le système natif peut être réutilisé proprement ou si une carte dédiée est préférable.
+- Match Call / PokéNav : recommandé pour des rematchs d'élite contrôlés, sans transformer les dresseurs originaux en source infinie d'argent.
+- Battle Frontier : recommandé pour le post-game, avec une économie de récompenses séparée.
+
+**Question :** quels de ces systèmes doivent être inclus dans la première version jouable, et lesquels peuvent attendre après la boucle économique de base ?
+
+## 11. Matériaux de boss
+
 - Les matériaux sont-ils des objets visibles dans le sac ou un inventaire privé de guilde ?
 - Le crafting d'un objet tenu demande-t-il seulement les matériaux, ou aussi des Pokédollars et un Pokémon donneur ?
 - Les boss donnent-ils un matériau garanti à chaque victoire ou un tirage aléatoire ?
 
 **Recommandation technique :** commencer avec un inventaire privé du mod et une liste de recettes claire ; décider plus tard si les matériaux doivent apparaître dans le sac natif.
 
-## 11. Matériaux de boss
+## 12. Volume de contenu
 
 La densité demandée représente un miniboss par ville et quatre rencontres par segment de route. Elle peut produire un grand nombre de combats sur toute la région.
 
-**Question :** cette densité est-elle un objectif ferme pour toutes les routes, y compris les petites routes et les embranchements, ou un objectif prioritaire à adapter selon la géographie ?
+**Question :** cette densité est-elle un objectif ferme pour toutes les routes, y compris les petites routes et les embranchements, ou un objectif prioritaire à adapter selon la géographie de Hoenn ?
 
 **Recommandation :** conserver la densité comme cible, mais autoriser une adaptation locale lorsque la carte ne peut accueillir quatre rencontres distinctes sans répétition.
 
-## 12. Volume de contenu
+## 13. Identité du mod
 
 Le nom définitif, le style visuel, le nom de la guilde et les noms des personnages ne sont pas encore définis. Le dossier utilise uniquement un identifiant technique de travail.
 
-## 13. Identité du mod
+## 14. Décisions bloquantes avant le code
 
-Les décisions prioritaires sont :
-1. le jeu exact ;
-2. le caractère strict ou non du plafond sur les Pokémon capturés ;
-3. la portée des dresseurs renouvelables et du reset PC/Centre ;
-4. la règle de consommation des donneurs et l'accès aux boîtes ;
-5. la règle EV « un donneur par point » ;
-6. le blocage des objets et le statut des objets tenus ;
-7. le rôle exact des boss et de leurs récompenses.
+Les décisions prioritaires restantes sont :
+1. valider le barème de plafonds de niveau et le traitement des Pokémon au-dessus du plafond ;
+2. choisir précisément quels dresseurs sont renouvelables et quand le cycle PC/Centre est réinitialisé ;
+3. fixer les règles de consommation des Pokémon, l'accès aux boîtes et les protections des Pokémon spéciaux ;
+4. décider si un donneur est nécessaire pour l'entraînement de niveau ;
+5. définir le modèle d'IV PV et confirmer si l'EV exige un donneur par point ou par lot ;
+6. confirmer l'interdiction des objets de sac et le statut des objets tenus ;
+7. définir les récompenses uniques et les conditions de réapparition des boss ;
+8. choisir les ajouts Hoenn à intégrer au premier jalon jouable.
