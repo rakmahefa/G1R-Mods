@@ -21,7 +21,7 @@ Les rubans, décorations et trophées sont des récompenses de collection, pas u
 
 ## 1. Contrats de baies et approvisionnement Hoenn
 
-<badge color="success">Recommandation — priorité haute</badge>
+**Recommandation — priorité haute**
 
 Emerald possède des arbres à baies et leur cycle de culture. Il faut transformer cette activité en une source de revenu et d'exploration.
 
@@ -37,7 +37,7 @@ Les commandes doivent tenir compte du temps réel de culture, des rendements et 
 
 ## 2. Pokéblocs et concours : une économie parallèle non combattante
 
-<badge color="success">Recommandation — priorité haute</badge>
+**Recommandation — priorité haute**
 
 Le mélangeur et les Pokéblocs sont une activité native d'Emerald. Le mod peut s'en servir pour créer une deuxième voie de progression.
 
@@ -54,7 +54,7 @@ Les concours doivent rester une alternative non combattante. Leur récompense é
 
 ## 3. Réputation de guilde en parallèle des badges
 
-<badge color="success">Recommandation — priorité haute</badge>
+**Recommandation — priorité haute**
 
 Le système de rang de guilde complète les badges, mais ne les remplace pas.
 
@@ -67,7 +67,7 @@ Les points de réputation devraient être attribués principalement aux succès 
 
 ## 4. Base secrète comme quartier général de guilde
 
-<badge color="info">Recommandation — priorité moyenne</badge>
+**Recommandation — priorité moyenne**
 
 Emerald dispose des bases secrètes et des décorations. Je recommande d'en faire un **quartier général visuel et fonctionnel** de la guilde, mais seulement après un prototype de faisabilité.
 
@@ -84,7 +84,7 @@ Les matériaux de boss peuvent débloquer des décorations ou trophées uniques.
 
 ## 5. PokéNav / Match Call : contrats de rematch
 
-<badge color="info">Recommandation — priorité moyenne</badge>
+**Recommandation — priorité moyenne**
 
 Utiliser le PokéNav comme support narratif et fonctionnel pour proposer des rematchs spécialisés.
 
@@ -101,7 +101,7 @@ Les rematchs de guilde peuvent rapporter un paiement modeste. Les rematchs d'él
 
 ## 6. Boss Emerald : météo, double combat et environnement
 
-<badge color="success">Recommandation — priorité haute</badge>
+**Recommandation — priorité haute**
 
 Emerald se prête à des boss construits autour de mécaniques plutôt qu'à de simples équipes sur-nivelées :
 - équipe basée sur la pluie, le soleil ou la tempête de sable ;
@@ -115,7 +115,7 @@ Les boss d'environnement peuvent être associés à Surf, Plongée, grottes, zon
 
 ## 7. Contrats d'expédition : Safari Zone, Plongée et zones cachées
 
-<badge color="info">Recommandation — priorité moyenne</badge>
+**Recommandation — priorité moyenne**
 
 Ajouter des contrats qui valorisent la découverte et non seulement la capture :
 - dresser le relevé d'une espèce dans la Safari Zone ;
@@ -130,7 +130,7 @@ Les récompenses peuvent augmenter avec le risque d'une zone accessible avant le
 
 ## 8. Zone de Combat : véritable fin de partie
 
-<badge color="info">Recommandation — post-game</badge>
+**Recommandation — post-game**
 
 La Zone de Combat doit arriver après la Ligue, et non concurrencer le premier parcours de badges.
 
