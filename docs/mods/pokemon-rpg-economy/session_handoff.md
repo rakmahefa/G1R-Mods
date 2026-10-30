@@ -17,7 +17,7 @@ La PR [#3 — docs: define first Pokémon RPG economy mod](https://github.com/ra
 - Contenu : 9 fichiers documentaires, 1 339 ajouts, aucune suppression.
 - Aucune implémentation Lua, aucun manifeste de mod et aucun code de gameplay n'ont été ajoutés.
 
-Cette session a ajouté le plan d'exécution `spec.md) et ce document de passation. Les fichiers de plan sont documentaires uniquement.
+Cette session a ajouté le plan d'exécution `spec.md` et ce document de passation. Les fichiers de plan sont documentaires uniquement.
 
 ## 2. État du produit à reprendre
 
