@@ -5,7 +5,7 @@
 **Mod :** pokemon-rpg-economy  
 **Jeu cible :** Pokémon Emerald uniquement  
 **Baseline main vérifiée :** e68febd862a9e92de2959457f92c55b6877d6e1d  
-**Travail courant :** PR #9 en brouillon, branche feature/pokemon-economy-lua-bundle, head f163c3f5e1e9348d66f02f10c50e243caf749943.
+**Travail courant :** PR #9 ouverte en brouillon sur la branche feature/pokemon-economy-lua-bundle ; CI run #41056713666 réussie sur le commit d'implémentation, les derniers commits ne modifient que la documentation.
 
 ## 1. État Git et PR fusionnées
 
