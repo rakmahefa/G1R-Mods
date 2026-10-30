@@ -54,6 +54,19 @@ Chaque ville et chaque route reçoit un identifiant de palier. Les dresseurs ord
 
 Les combats d'arène et les boss utilisent un niveau cible propre à leur rôle. Les boss doivent être nettement plus exigeants que les dresseurs ordinaires du même palier, sans devenir obligatoires pour continuer l'histoire principale.
 
+### Particularités d'Emerald
+
+La carte de progression est celle de Hoenn : villes, routes, grottes, fonds marins accessibles avec Plongée, zones météo et lieux optionnels doivent être cartographiés à partir d'Emerald. Les paliers ne doivent pas être copiés d'un autre jeu de génération III.
+
+Les systèmes propres à Emerald deviennent des activités secondaires qui soutiennent l'économie :
+- arbres à baies et Pokéblocs ;
+- concours Pokémon ;
+- bases secrètes et décorations ;
+- PokéNav et rematchs de dresseurs ;
+- Zone de Combat, Tour de Combat et autres installations post-game.
+
+Ces activités ne remplacent pas la boucle principale des contrats de capture et de l'entraînement payant. Elles offrent des voies alternatives de progression, des objets de collection, des récompenses spécifiques et des objectifs de fin de partie.
+
 ## 4. EXP et EV
 
 - Tous les gains d'EXP de combat sont supprimés : dresseurs, Pokémon sauvages ordinaires, miniboss et boss.
@@ -137,6 +150,9 @@ Le joueur doit ressentir une différence claire entre :
 - un boss de route : matériau plus rare et récompense propre au combat ;
 - un boss caché : découverte, matériau rare ou récompense spéciale ;
 - un boss dresseur : équipe construite, objet rare, recette ou service débloqué ;
-- un badge : plafond de niveau supérieur et nouvelle étape de progression.
+- un badge : plafond de niveau supérieur et nouvelle étape de progression ;
+- un rang de guilde : nouveaux contrats, services spécialisés et recettes ;
+- une activité Hoenn (baies, Pokéblocs ou concours) : récompense économique ou de collection ;
+- un défi de Zone de Combat : récompense de maîtrise de fin de partie.
 
 Les récompenses sont conçues pour être complémentaires, pas interchangeables. L'argent finance les services ; les matériaux financent l'équipement spécial ; les Pokémon capturés peuvent financer les contrats ou servir de donneurs pour les services.
