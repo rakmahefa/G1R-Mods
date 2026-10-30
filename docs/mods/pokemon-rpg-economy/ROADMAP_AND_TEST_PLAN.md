@@ -102,7 +102,7 @@ Critère de sortie : tous les boss sont facultatifs, non agressifs, correctement
 | IV/EV | IV entre 0 et 31 ; 252 EV par stat au maximum ; 510 EV au total |
 | Moves | Compatibilité vérifiée ; pas de doublon ou de move invalide |
 | Évolution | Espèce cible correcte ; pas de duplication ni de perte du Pokémon |
-| Day Care | Egg-move légal ; cinq œufs consommés une seule fois ; espèce reçue non légendaire, non évoluée et de niveau 5 |
+| Day Care | Egg-move légal ; cinq œufs consommés une seule fois après confirmation ; dix espèces distinctes admissibles tirées au sort ; choix du joueur respecté ; Pokémon choisi non légendaire, au premier stade et de niveau 5 ; annulation ou échec sans perte d'œufs |
 | Objets | Aucun objet de sac utilisable en combat de dresseur ou de boss ; Poké Balls encore utilisables en combat sauvage ordinaire |
 | Boss | Pas d'auto-déclenchement ; option de refuser ; une seule récompense unique |
 | Sauvegarde | Progression, matériaux, contrats et flags conservés après sauvegarde, fermeture et reprise |
@@ -120,7 +120,7 @@ Exemples de cas à couvrir :
 - cycle de rematch avec zéro, un ou plusieurs dresseurs vaincus ;
 - calcul des caps et tarifs ;
 - règles de consommation des donneurs ;
-- sélection aléatoire reproductible pour l'échange de cinq œufs avec Pokémon niveau 5 ;
+- tirage reproductible de dix espèces distinctes et admissibles pour l'échange de cinq œufs ; choix du joueur respecté et récompense créée au niveau 5 ;
 - sauvegarde/reprise et protection contre la duplication.
 
 ### Tests en jeu
