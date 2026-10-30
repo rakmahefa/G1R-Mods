@@ -83,6 +83,8 @@ C'est une décision importante car le service peut détruire définitivement un 
 
 ## 8. Règles précises des services
 
+**Entraînement de niveau :** le modèle actuel propose un paiement en Pokédollars sans Pokémon donneur, car l'argent est censé être le principal coût de montée en niveau. Confirmer que cette exception est voulue, ou préciser si le joueur doit aussi fournir un donneur.
+
 ### IV
 
 - Quel donneur faut-il pour augmenter l'IV PV, puisqu'aucune nature n'augmente les PV ?
