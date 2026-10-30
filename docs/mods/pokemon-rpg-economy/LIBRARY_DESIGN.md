@@ -1,6 +1,6 @@
 # Bibliothèque interne — Pokémon RPG Economy
 
-**Statut :** architecture retenue pour la première implémentation ; code non commencé  
+**Statut :** architecture retenue ; première tranche implémentée dans la PR [#6](https://github.com/rakmahefa/G1R-Mods/pull/6) ; CI du commit `91daf575531cdc21b9e36f0272d7d2dd6ff7565a` réussie  
 **Périmètre :** mod `pokemon-rpg-economy`, Gen1Recomp API 3, Pokémon Emerald uniquement  
 **Référence moteur auditée :** `0be34bc76cecf996e91d2f905d1b4bb5f14d43ae`
 
@@ -39,24 +39,29 @@ Le petit chargeur de `lib/bootstrap.lua` doit :
 
 Le chargeur ne doit pas fournir une version permissive de `require` ou accepter des chemins arbitraires. Les erreurs de démarrage doivent faire échouer le chargement du mod proprement ; le chargeur moteur gère alors son rollback d'enregistrement.
 
-Exemple de forme attendue dans le point d'entrée :
+Exemple correspondant au chargeur livré dans `main.lua` :
 
 ```lua
 return function(mod)
-  local source, readErr = mod:read("lib/bootstrap.lua")
-  assert(source, readErr or "missing lib/bootstrap.lua")
-  local chunk, compileErr = load(source, "@lib/bootstrap.lua")
-  assert(chunk, compileErr or "cannot compile lib/bootstrap.lua")
-  local createLibrary = chunk()
-  local lib = createLibrary(mod)
+  local source, readError = mod:read("lib/bootstrap.lua")
+  assert(type(source) == "string", readError or "missing lib/bootstrap.lua")
+  local chunk, compileError = load(source, "@lib/bootstrap.lua")
+  assert(type(chunk) == "function", compileError or "cannot compile lib/bootstrap.lua")
 
-  local validate = lib.load("validation")
-  local result = lib.load("result")
-  -- Démarrer ensuite les services du mod avec leurs dépendances explicites.
+  local bootstrap = chunk()
+  local library = bootstrap.new({
+    read = function(path) return mod:read(path) end,
+    compile = function(sourceText, chunkname)
+      return load(sourceText, chunkname)
+    end,
+  })
+
+  local validation = library.load("validation")
+  local result = library.load("result")
 end
 ```
 
-Le code réel devra rester compatible avec la version Lua utilisée par le moteur et passer le loader headless ; cet extrait décrit le contrat, pas un module déjà livré.
+Le chargeur injecte uniquement deux capacités : lecture relative au mod et compilation dans l'environnement sandboxé courant. Les chemins des autres modules restent dans l'allowlist de `bootstrap.lua`.
 
 ## 4. Modules de départ
 
@@ -67,7 +72,7 @@ Ne créer que les primitives réellement utilisées par les premières tranches 
 | `bootstrap.lua` | Chargement local allowlisté, cache des modules, détection de cycles | Aucun accès global au chargeur Lua |
 | `validation.lua` | Vérification de nombres finis, entiers, bornes, identifiants, enums et structures | Fonctions pures, sans mutation |
 | `result.lua` | Format uniforme succès/échec et codes d'erreur | Ne masque jamais une exception inattendue |
-| `persistence.lua` | Enveloppe de `mod.save` / `mod.storage`, version de schéma, migrations et validation des données | N'invente pas de transaction physique |
+| `persistence.lua` | Enveloppe versionnée de `mod.save`, validation des données et migrations | `mod.storage` est différé ; aucune transaction physique n'est inventée |
 | `cache.lua` | Cache paresseux, borné et invalidable pour données statiques | Ne conserve pas de références vivantes à l'équipe, au jeu ou à la session |
 | `diagnostics.lua` | Logs désactivables par catégorie et limitation des répétitions | Aucun log par frame, aucune donnée sensible |
 
@@ -148,5 +153,7 @@ Les dossiers `services/`, `ui/` et `data/` sont une structure cible, pas une inv
 - Tests de non-régression : les événements vanilla continuent, les hooks coopèrent, le mod désactivé ne laisse aucune modification et les autres mods ne reçoivent aucun état global.
 - Lint, chargement par le SDK headless, suites `make test`, `make check`, `make smoke-template` et packaging font partie des portes de validation.
 - Tests en jeu obligatoires pour menus, scripts Emerald, combat, sauvegarde réelle et performances sur une session représentative.
+
+**État de la première tranche :** la PR #6 implémente le manifeste Emerald/API 3, le bootstrap allowlisté, les modules `validation`, `result`, `cache`, `persistence` et `diagnostics`, ainsi qu'une suite headless exécutée par le SDK réel. La CI #41044501372 valide `make check`, `make test`, `make smoke-template` et `make package` sur le commit initial de la PR. Les tests en jeu et les prototypes gameplay restent hors périmètre.
 
 **Critère d'acceptation :** aucun service gameplay ne peut être ajouté à la production s'il n'utilise pas les validations communes pertinentes, n'a pas de tests headless et ne respecte pas les limites de l'API publique. Toute fonctionnalité dont la sûreté dépend d'une mutation atomique non disponible reste bloquée ou est réduite en périmètre.
