@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: help bootstrap update-engine list new check test package clean
+.PHONY: help bootstrap update-engine list new check test smoke-template package clean
 
 help:
 	@printf '%s\n' \
@@ -34,6 +34,9 @@ check:
 
 test:
 	@./scripts/test.sh
+
+smoke-template:
+	@./scripts/smoke-template.sh
 
 package:
 	@./scripts/package.sh

@@ -47,6 +47,9 @@ jobs:
       - name: Run headless mod tests
         run: make test
 
+      - name: Exercise mod template end-to-end
+        run: make smoke-template
+
       - name: Build development ZIP packages
         env:
           MOD_ID: ${{ inputs.mod_id }}

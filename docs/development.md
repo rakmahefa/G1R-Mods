@@ -36,11 +36,13 @@ Edit `manifest.json`, `main.lua`, `mod.card`, `README.md`, and the tests. New mo
 make list
 make check
 make test
+make smoke-template
 make package
 ~~~
 
 - `make check` checks directory/manifest consistency and runs upstream `modkit lint` for every mod.
 - `make test` executes every `mods/<id>/tests/*_test.lua` file under the upstream engine checkout.
+- `make smoke-template` creates a temporary mod from the template, runs upstream lint and its SDK smoke test, checks the ZIP, then removes the temporary files.
 - `make package` creates deterministic installable ZIP files and a SHA-256 manifest in `dist/`.
 
 The wrapper in `scripts/modkit.sh` invokes the pinned upstream `tools/modkit.py` with `--repo third_party/gen1recomp`, so absolute mod paths outside the engine checkout are supported.

@@ -51,5 +51,8 @@ jobs:
       - name: Run headless mod tests
         run: make test
 
+      - name: Exercise mod template end-to-end
+        run: make smoke-template
+
       - name: Verify installable ZIP packaging
         run: make package
