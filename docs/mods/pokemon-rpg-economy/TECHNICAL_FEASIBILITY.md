@@ -23,8 +23,8 @@ La base du mod reste Portable API 3. Les extensions moteur doivent être propos�
 
 | Système | Support existant identifié | Évaluation |
 |---|---|---|
-| Supprimer l'EXP des combats | Hook battle.exp_award avec une répartition contrôlée | Faisable côté API publique |
-| Supprimer les EV des combats | Les EV sont attribués dans le chemin d'attribution, avant l'application de l'EXP ; supprimer entièrement la récompense empêche aussi cet appel | Faisable via le même point, à tester |
+| Supprimer l'EXP des combats | Hook public `battle.exp_award` ; PR [#7](https://github.com/rakmahefa/G1R-Mods/pull/7) ajoute l'interception exclusive sans `next` et le test headless | **Preuve headless réussie** sur combats sauvages et dresseurs ; CI #41045753060 verte |
+| Supprimer les EV des combats | `Pokemon.gainEVs` s'exécute avant `Experience.apply` dans `Experience.awardFoe` ; le hook global supprime donc les deux appels, pas seulement le montant d'EXP | **Preuve headless réussie** pour le participant et le détenteur d'Exp. Share ; cas Pokérus/objets multiplicateurs et jeu réel à compléter |
 | Modifier les équipes des dresseurs | Hook trainer.party qui reçoit la classe, l'identifiant du dresseur et son équipe ; il accepte une équipe transformée en retour | Faisable côté API publique |
 | Réduire les paiements des dresseurs | Les données des dresseurs supportent baseMoney | Faisable pour le montant de base |
 | Détecter les combats et les résultats | Événements battle.started, battle.ended et world.trainer_engaged | Faisable côté API publique |
@@ -56,7 +56,8 @@ Dans le moteur étudié, le flux d'attribution d'une récompense de combat appel
 
 - faire retourner zéro à exp.gain n'empêche pas les EV ;
 - utiliser battle.exp_award pour ne pas distribuer la récompense (et ne pas appeler le chemin d'attribution) empêche le gain d'EXP et l'appel d'attribution des EV ;
-- les tests doivent vérifier séparément l'EXP, les EV, les niveaux, les annonces de montée de niveau et le comportement des objets tenus comme Exp Share.
+- le test de PR #7 vérifie une baseline native positive puis l'absence d'EXP/EV sur combats sauvages et dresseurs, pour le participant et le détenteur d'Exp. Share ; run CI [#41045753060](https://github.com/rakmahefa/G1R-Mods/actions/runs/41045753060), **85/85 checks passed** ;
+- restent à couvrir : miniboss/boss, Pokérus et objets multiplicateurs, événements/annonces de montée de niveau et validation en jeu.
 
 Références :
 - https://github.com/bryanthaboi/gen1recomp/blob/0be34bc76cecf996e91d2f905d1b4bb5f14d43ae/src/core/game3/battle/experience.lua
