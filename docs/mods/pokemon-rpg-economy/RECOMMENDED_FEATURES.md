@@ -1,6 +1,6 @@
 # Recommended Features — Extensions Emerald
 
-Ce document propose des ajouts compatibles avec la philosophie du mod : une économie utile, une progression méritée, des activités variées et des défis facultatifs. Il ne transforme pas chaque idée en exigence de la première version.
+Les recommandations de ce document sont acceptées comme direction de conception du mod : économie utile, progression méritée, activités Hoenn variées et défis facultatifs. Leur intégration reste progressive ; elles ne deviennent pas toutes des dépendances de la première boucle jouable.
 
 ## Principes de sélection
 
