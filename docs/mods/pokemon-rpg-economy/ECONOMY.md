@@ -194,16 +194,19 @@ La compatibilité doit provenir des données d'egg-moves du jeu. Le service ne d
 
 ### Échange de cinq œufs
 
-Le joueur peut remettre cinq œufs pour recevoir un Pokémon non évolué de premier stade.
+Le joueur remet cinq œufs et reçoit un Pokémon qu'il **choisit parmi dix espèces proposées par un tirage aléatoire**. L'aléatoire sert à constituer les dix options ; il ne décide pas à la place du joueur de l'espèce finalement reçue.
 
-Règles proposées :
-- les cinq œufs sont consommés ;
-- le Pokémon reçu est tiré au sort dans une sélection contrôlée de dix espèces ;
+Règles validées :
+- les cinq œufs sont consommés en une seule transaction, uniquement après confirmation du choix ;
+- le service tire au sort dix espèces **distinctes** dans le pool des espèces admissibles ;
+- le joueur choisit exactement une espèce parmi ces dix options ;
+- l'espèce choisie est celle du Pokémon remis : aucun second tirage ne peut remplacer le choix du joueur ;
 - aucune espèce légendaire n'est éligible ;
-- le Pokémon reçu est généré directement au niveau 5 ;
-- la liste des dix espèces peut changer selon le palier, afin de préserver la valeur de l'échange.
+- seules les espèces au premier stade (forme de base, sans évolution préalable) sont éligibles ;
+- le Pokémon reçu est généré directement au niveau 5, et non remis sous forme d'œuf ;
+- le pool d'espèces admissibles peut être adapté au palier de progression pour préserver la valeur de l'échange.
 
-Le niveau 5 correspond au niveau normal d'éclosion en génération III. Le service remet donc un Pokémon déjà généré au niveau 5, et non un œuf à faire éclore. Il faut préserver les règles de création normales du Pokémon (nature, IV, capacité, personnalité, moves de départ) et exclure explicitement les espèces légendaires et les formes qui ne sont pas de premier stade.
+Le niveau 5 correspond au niveau normal d'éclosion en génération III. Le service remet donc un Pokémon déjà généré au niveau 5. Il faut préserver les règles normales de création du Pokémon (nature, IV, capacité, personnalité et capacités de départ). Les dix options doivent être distinctes et satisfaire les règles d'éligibilité. Si le joueur annule ou si le service ne peut pas garantir la réception du Pokémon, aucun œuf ne doit être consommé.
 
 ## 11. Matériaux et objets tenus
 
