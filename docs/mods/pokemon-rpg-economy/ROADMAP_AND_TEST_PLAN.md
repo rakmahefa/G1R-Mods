@@ -83,7 +83,7 @@ Critère de sortie : tous les boss sont facultatifs, non agressifs, correctement
 - Étendre les contrats locaux.
 - Vérifier la progression badge par badge.
 - Simuler les flux d'argent et les coûts.
-- Vérifier la compatibilité LeafGreen si elle est retenue.
+- Vérifier la stabilité du contenu Emerald sur toute la progression de Hoenn.
 - Préparer le packaging et les notes de version.
 
 ## 3. Matrice de tests
@@ -102,10 +102,11 @@ Critère de sortie : tous les boss sont facultatifs, non agressifs, correctement
 | IV/EV | IV entre 0 et 31 ; 252 EV par stat au maximum ; 510 EV au total |
 | Moves | Compatibilité vérifiée ; pas de doublon ou de move invalide |
 | Évolution | Espèce cible correcte ; pas de duplication ni de perte du Pokémon |
-| Day Care | Egg-move légal ; cinq œufs consommés une seule fois ; espèce reçue non légendaire et non évoluée |
+| Day Care | Egg-move légal ; cinq œufs consommés une seule fois ; espèce reçue non légendaire, non évoluée et de niveau 5 |
 | Objets | Aucun objet de sac utilisable en combat de dresseur ou de boss ; Poké Balls encore utilisables en combat sauvage ordinaire |
 | Boss | Pas d'auto-déclenchement ; option de refuser ; une seule récompense unique |
 | Sauvegarde | Progression, matériaux, contrats et flags conservés après sauvegarde, fermeture et reprise |
+| Emerald | Tous les systèmes spécifiques (baies, Pokéblocs, concours, bases secrètes, Match Call, Frontier) restent cohérents avec leurs sauvegardes et leurs scripts natifs |
 | Désactivation | Le comportement vanilla revient sans laisser d'état corrompu |
 
 ## 4. Tests headless et tests en jeu
@@ -119,7 +120,7 @@ Exemples de cas à couvrir :
 - cycle de rematch avec zéro, un ou plusieurs dresseurs vaincus ;
 - calcul des caps et tarifs ;
 - règles de consommation des donneurs ;
-- sélection aléatoire reproductible pour l'échange d'œufs ;
+- sélection aléatoire reproductible pour l'échange de cinq œufs avec Pokémon niveau 5 ;
 - sauvegarde/reprise et protection contre la duplication.
 
 ### Tests en jeu
@@ -131,6 +132,8 @@ Les tests réels sont nécessaires pour :
 - le placement et la persistance des PNJ ;
 - les combats et les objets de sac ;
 - les combats déclenchés via interaction ;
+- les arbres à baies, Pokéblocs, concours et bases secrètes ;
+- Match Call / rematchs et les installations de la Zone de Combat.
 - le comportement après défaite et retour au Centre.
 
 ## 5. Équilibrage
