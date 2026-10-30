@@ -113,6 +113,15 @@ Il faudra donc proposer au moteur une API publique, sûre et transactionnelle, a
 
 Ces opérations doivent être atomiques : si la vérification, le paiement ou la modification échoue, aucun Pokémon ni argent ne doit être perdu.
 
+### Clarification issue de l'audit du code moteur
+
+L'absence d'API publique ne signifie pas que le moteur ne possède aucune primitive interne. La révision auditée comprend notamment `Party.giveMon` pour générer/remettre un Pokémon et des fonctions `Storage` pour déposer, retirer, déplacer ou libérer des Pokémon entre équipe et boîtes. Ces fonctions sont des détails d'implémentation du moteur ; leur existence ne les transforme pas en contrat stable pour un mod API 3.
+
+Le moteur expose aussi `mod.game` comme service propriétaire vivant. Sous Gen 3, ce propriétaire est `Game3` et il détient `session`. Accéder à `mod.game.session` pour modifier directement les Pokémon ou l'argent contournerait les façades publiques et couplerait le mod aux structures privées de sauvegarde, au cycle de vie runtime et aux règles Emerald. **Cette approche est interdite pour ce projet**, même si elle paraît fonctionner dans un prototype local.
+
+De même, `mod.world:party()` reste un snapshot détaché ; changer ce résultat n'écrit pas la session. Aucun identifiant stable de Pokémon, valable à travers les déplacements entre équipe et boîtes et les rechargements, n'a été confirmé comme contrat public dans la révision auditée.
+
+La demande moteur devra donc porter sur une façade publique et versionnée : références de Pokémon stables ou jetons de révision, opérations autorisées, préconditions, garanties de commit/rollback, événements émis, persistance et reprise. Tant que cette façade n'existe pas, le mod peut valider et afficher des snapshots, mais ne doit pas effectuer de vente, sacrifice ou mutation de Pokémon en manipulant les tables internes.
 ### Cas particulier de la nature
 
 En génération III, la nature dérive du Personality Value. Un changement de nature ne doit pas se limiter à modifier une étiquette de nature. Le moteur doit recalculer ou préserver les propriétés qui dépendent de la personnalité, notamment le sexe, le shiny et certaines formes.
@@ -151,6 +160,15 @@ Le reset d'un cycle de dresseurs ne doit pas se déclencher plusieurs fois pour 
 Les contrats, boss vaincus, rotations et cycles de rematch doivent être stockés dans l'espace de sauvegarde du mod. Les matériaux de boss peuvent d'abord être conservés dans cet espace privé plutôt que sous forme d'objets natifs, afin d'éviter de détourner prématurément les inventaires du jeu.
 
 Si un inventaire de matériaux visible est nécessaire, l'écran du mod doit afficher clairement les quantités et les coûts. Une conversion en objets natifs pourra être étudiée après la validation des registres d'objets et des boutiques.
+
+## 10 bis. Bibliothèque interne et garde-fous du mod
+
+Une petite bibliothèque privée au mod est planifiée dans [LIBRARY_DESIGN.md](LIBRARY_DESIGN.md). Le mécanisme local de modules est techniquement supporté par le sandbox du moteur : `mod:read` lit le fichier du mod et le `load` sandboxé compile dans l'environnement du mod. Cela évite d'exiger `package`, `dofile`, un accès filesystem global ou des modules `src.*`.
+
+La bibliothèque centralisera uniquement les primitives réellement réutilisées (validation, résultats, persistance versionnée, caches bornés et diagnostics). Elle ne remplacera pas les events/hooks du moteur et ne contournera pas les APIs publiques. La sûreté des mutations de Pokémon reste une dépendance moteur distincte : une bibliothèque Lua du mod ne peut pas rendre atomique une séquence de fonctions privées.
+
+Les critères de qualité incluent absence de travail à chaque frame, invalidation explicite des caches, abonnements non dupliqués, clés namespacées, erreurs visibles et tests headless du chargeur et des migrations.
+
 
 ## 11. Prototypes à exiger avant production
 
