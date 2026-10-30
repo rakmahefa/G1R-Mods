@@ -19,6 +19,14 @@ La PR [#3 — docs: define first Pokémon RPG economy mod](https://github.com/ra
 
 Cette session a ajouté le plan d'exécution `spec.md` et ce document de passation. Les fichiers de plan sont documentaires uniquement.
 
+### PR documentaire de ce plan
+
+- PR [#4 — docs: add implementation plan and session handoff](https://github.com/rakmahefa/G1R-Mods/pull/4).
+- Branche : `docs/pokemon-rpg-economy-execution-plan`.
+- État au dernier contrôle : ouverte, en brouillon, fusionnable.
+- Fichiers concernés : `spec.md`, `session_handoff.md` et le README du dossier.
+- Cette PR est distincte de la PR #3 déjà fusionnée. Ne pas considérer les deux nouveaux documents comme intégrés à `main` avant la fusion de la PR #4.
+
 ## 2. État du produit à reprendre
 
 ### Décisions confirmées
