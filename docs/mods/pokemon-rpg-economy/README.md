@@ -47,6 +47,7 @@ Les combats ordinaires ne donnent ni EXP ni EV. Ils restent néanmoins utiles po
 
 ## Documents
 
+- [LIBRARY_DESIGN.md](LIBRARY_DESIGN.md) — architecture de la bibliothèque privée, isolation, performances, persistance et critères de test.
 - [spec.md](spec.md) — plan directeur d'implémentation, phases, dépendances techniques et critères de sortie.
 - [session_handoff.md](session_handoff.md) — état de reprise, décisions et première tâche de la prochaine session.
 
