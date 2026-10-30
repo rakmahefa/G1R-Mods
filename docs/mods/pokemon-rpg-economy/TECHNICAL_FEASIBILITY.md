@@ -11,13 +11,13 @@ Cette étude est basée sur le submodule du dépôt G1R-Mods, épinglé à :
 
 Le dépôt de mods utilise déjà le template API 3 et un SDK headless. La conception doit respecter l'API publique : pas d'import de modules internes du moteur et pas de modification directe de l'état interne du jeu depuis le Lua du mod.
 
-## 2. Choix de génération
+## 2. Choix du jeu : Emerald uniquement
 
-Les mécaniques demandées nécessitent les natures, IV, EV et egg-moves. La cible appropriée est la troisième génération.
+Le périmètre validé est **Pokémon Emerald uniquement**. Les autres versions Gen 3 ne font pas partie du premier mod. Les données et scripts propres à Hoenn doivent être la référence pour toutes les analyses de cartes, dresseurs, rencontres, boutiques, récompenses et tests.
 
-L'API 3 documente un support Gen 3 pour FireRed, LeafGreen, Ruby, Sapphire et Emerald. Le moteur expose des contrats communs, mais conserve des tables de cartes, scripts et données propres à chaque jeu.
+La matrice du moteur identifie dans Emerald des capacités natives spécifiques : Match Call/PokéNav, arbres à baies, Pokéblocs, mélangeur, concours, bases secrètes, décorations, Battle Frontier, Battle Tents et Battle Pyramid. Ces entrées confirment la présence du système de jeu dans le moteur ; elles ne garantissent pas à elles seules qu'un mod peut appeler ou modifier chacune de ses fonctions via l'API publique.
 
-Recommandation : commencer par FireRed, tester ensuite LeafGreen, et ne pas déclarer Emerald compatible avant d'avoir réalisé une adaptation des cartes, des rencontres, des dresseurs, des boutiques et des scripts.
+La base du mod reste Portable API 3. Les extensions moteur doivent être proposées lorsque les opérations requises ne sont pas exposées, plutôt que d'importer des modules internes depuis le mod.
 
 ## 3. Matrice de faisabilité
 
@@ -43,7 +43,12 @@ Recommandation : commencer par FireRed, tester ensuite LeafGreen, et ne pas déc
 | Interdire les objets dans les combats de dresseurs et de boss | item.use couvre le chemin d'utilisation hors combat ; le chemin de combat passe par BattleItems.use et aucun hook battle-specific d'interdiction n'est documenté dans l'API Gen 3 étudiée | Extension moteur requise pour un blocage complet |
 | Contrats de capture avec remise d'un Pokémon | pokemon.caught donne l'événement de capture ; catch.party_full permet une prise en charge dans le seul cas de l'équipe pleine ; cela ne fournit pas un système générique de vente depuis l'équipe/PC | Extension moteur requise |
 | Modifier les prix d'objets | Registre items et prix des enregistrements disponibles ; le flux des boutiques Gen 3 utilise cependant des données/scripts natifs | Faisable en partie, prototype de boutique requis |
-| Remplacer le panneau du Centre par un tableau | PNJ, interaction et écran custom sont disponibles ; intégration précise dans chaque Centre à cartographier | Prototype requis |
+| Remplacer le panneau du Centre par un tableau | PNJ, interaction et écran custom sont disponibles ; intégration précise dans chaque Centre Emerald à cartographier | Prototype requis |
+| Baies et Pokéblocs | Les systèmes natifs Emerald d'arbres à baies, Pokéblocs et mélangeur sont présents dans le moteur | Base native disponible ; interface de contrat mod à prototyper |
+| Concours Pokémon | Le moteur répertorie les concours Emerald et leurs interfaces natives | Base native disponible ; récompenses et intégration guilde à prototyper |
+| Base secrète et décorations | Les systèmes secret base et decorations sont identifiés comme propres à RSE/Emerald | Base native disponible ; usage comme quartier général à prototyper |
+| Match Call / PokéNav | La capacité Match Call est présente pour Emerald | Base native disponible ; contrôle des rematchs et de leurs récompenses à prototyper |
+| Battle Frontier | Battle Frontier, Battle Tents et Battle Pyramid sont identifiés pour Emerald | Base native disponible ; intégration comme contenu post-game à prototyper |
 
 ## 4. EXP et EV : détail important
 
@@ -82,7 +87,7 @@ Les PNJ dynamiques sont disponibles par mod.world:spawnNpc. Leurs interactions p
 
 Les écrans custom sont fournis par content.screens et mod.ui. Cela permet de construire les interfaces du tableau de contrats, du guichet, du service d'arène et du Day Care.
 
-Les événements screen.pushed et screen.popped existent, mais ils ne constituent pas à eux seuls une preuve que le joueur vient d'utiliser réellement un PC Pokémon. Il faudra identifier les écrans précis de FireRed et vérifier les chemins de retour et d'annulation.
+Les événements screen.pushed et screen.popped existent, mais ils ne constituent pas à eux seuls une preuve que le joueur vient d'utiliser réellement un PC Pokémon. Il faudra identifier les écrans et scripts propres à Emerald et vérifier les chemins de retour et d'annulation.
 
 Références :
 - https://github.com/bryanthaboi/gen1recomp/blob/0be34bc76cecf996e91d2f905d1b4bb5f14d43ae/docs/modding.md
@@ -158,5 +163,9 @@ Les prototypes suivants sont des preuves techniques, pas des fonctionnalités fi
 5. Lancer un boss sauvage sur interaction et lancer un boss dresseur scripté sans auto-déclenchement.
 6. Prouver une transaction de mutation/consommation de Pokémon avec rollback en cas d'échec.
 7. Retirer les objets interdits de la sélection de combat, sans empêcher les Poké Balls dans les combats sauvages ordinaires.
+8. Prototyper un contrat de baies, une commande de Pokéblocs et une récompense de concours, sans toucher aux données internes du moteur.
+9. Vérifier l'accès au système de décoration des bases secrètes et définir si le quartier général sera une base secrète décorée ou une carte dédiée.
+10. Tester Match Call pour un rematch appartenant au mod, sans réactiver ou payer les dresseurs narratifs de façon incorrecte.
+11. Évaluer un défi de Zone de Combat post-game séparé de la progression badge et des cycles de rematch.
 
 Aucune fonctionnalité dépendant d'une opération privée du moteur ne doit être déclarée faisable simplement parce qu'un module interne du moteur sait déjà le faire.
