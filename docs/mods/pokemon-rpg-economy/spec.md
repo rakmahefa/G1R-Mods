@@ -169,11 +169,11 @@ Tâches :
 
 ### Phase 0.5 — Socle de bibliothèque interne
 
-**Statut :** implémentée dans la PR [#6](https://github.com/rakmahefa/G1R-Mods/pull/6) — CI réussie.
+**Statut :** socle initial fusionné via PR [#6](https://github.com/rakmahefa/G1R-Mods/pull/6), puis pipeline de bundle fusionné via PR [#9](https://github.com/rakmahefa/G1R-Mods/pull/9). CI bundle #41056713666 réussie.
 
 **Objectif :** créer le minimum de structure commune pour que les prototypes puis les fonctionnalités n'introduisent pas chacun leur propre chargement, validation ou gestion d'état.
 
-La première tranche est présente dans `mods/pokemon-rpg-economy/` et fusionnée dans main via PR #6. Elle inclut les modules communs, le manifeste Emerald/API 3 et les tests SDK headless. La CI de PR #6 a passé `make check`, `make test`, `make smoke-template` et `make package`. Le hook de suppression EXP/EV a ensuite été ajouté et fusionné via PR #7. La validation en jeu n'a pas encore été faite.
+La première tranche est présente dans `mods/pokemon-rpg-economy/` et fusionnée via PR #6 : modules communs, manifeste Emerald/API 3 et tests SDK headless. Le hook de suppression EXP/EV a ensuite été fusionné via PR #7. Le bundle source Lua généré au build et son intégration aux tests headless et au packaging ont été fusionnés via PR #9. La CI #41056713666 valide lint, SDK headless, smoke-template et ZIP sur le commit d'implémentation. La validation en jeu n'a pas encore été faite.
 
 Tâches :
 - garder les sources de bibliothèque séparées et décrire leur inventaire dans `.lua-bundle.json` ;
@@ -186,7 +186,7 @@ Tâches :
 - vérifier que le mod ne demande aucune permission `engine_internals` et ne dépend d'aucun autre mod.
 
 **Critères de sortie :**
-- le loader refuse tout module/chemin non autorisé et ne partage aucun état global ;
+- le loader du bundle refuse tout nom de module absent de l'inventaire généré et ne partage aucun état global ;
 - chaque module charge dans le sandbox normal du mod ;
 - les tests headless passent et le package ne contient pas les suites de test ;
 - aucune fonctionnalité gameplay n'est implémentée dans cette étape.
@@ -279,7 +279,7 @@ Tester au moins une opération de consommation et une opération de mutation sur
 Tâches :
 - créer `mods/pokemon-rpg-economy/` depuis `templates/mod-template/` ;
 - déclarer API 3 et Emerald uniquement dans le manifeste ;
-- organiser les modules : bootstrap, config, progression, économie, contrats, PNJ/UI, données, persistance ;
+- organiser les modules sources : config, progression, économie, contrats, PNJ/UI, données, persistance ; la génération du bundle reste une étape de build, pas un module runtime séparé ;
 - définir version de schéma save, migrations, valeurs par défaut et reset de debug ;
 - établir des identifiants stables pour contrats, PNJ, trainers et boss ;
 - ajouter les tests headless du chargement, du manifeste, des hooks et de la migration ;
@@ -434,14 +434,12 @@ La densité cible de boss (un miniboss par ville, deux miniboss + un boss sauvag
 
 ## 8. Prochaine session — première séquence recommandée
 
-1. Cloner/synchroniser le dépôt et les sous-modules depuis `main`, puis vérifier le commit courant et la révision moteur.
-2. Lire `docs/development.md`, `docs/architecture.md`, le template, le SDK headless et les documents techniques du mod, notamment `LIBRARY_DESIGN.md`.
-3. Exécuter `make bootstrap`, `make check`, `make test`, `make smoke-template` et consigner le résultat réel.
-4. Créer une branche de travail dédiée au socle de bibliothèque et aux prototypes, pas au gameplay complet.
-5. Commencer par une preuve headless minimale pour `battle.exp_award` (EXP et EV ensemble).
-6. En parallèle, rédiger le contrat attendu de l'API de transaction Pokémon : identifiant stable, opérations supportées, invariants, rollback, sauvegarde et reprise.
-7. Établir un tableau « API publique / prototype / extension requise / décision produit » avant de démarrer la Phase 2.
-8. Construire la bibliothèque interne minimale décrite dans `LIBRARY_DESIGN.md`, puis la faire passer par lint, SDK headless et packaging.
+1. Synchroniser main sur la baseline post-PR #9 `baa81b25501da7dcd28eb75280830f845f0899ff` et vérifier le gitlink Gen1Recomp.
+2. Exécuter `make bootstrap`, `make check`, `make test`, `make bundle MOD=pokemon-rpg-economy`, `make smoke-template` et `make package` ; enregistrer les résultats réels.
+3. Compléter la couverture EXP/EV : boss/miniboss, Pokérus, objets multiplicateurs et événements de montée de niveau.
+4. Prototyper séparément la mise à l'échelle des dresseurs via l'API publique `trainer.party` et le suivi des transitions de carte.
+5. Auditer les objets utilisables en combat ainsi que les signaux de soin effectif et d'utilisation du PC.
+6. Garder les contrats/Day Care et les services économiques dépendant de mutations Pokémon en attente d'une API publique transactionnelle implémentée et testée.
 
 **Ne pas commencer la construction complète de l'overhaul avant d'avoir clarifié la dépendance majeure de mutation/consommation des Pokémon.**
 
