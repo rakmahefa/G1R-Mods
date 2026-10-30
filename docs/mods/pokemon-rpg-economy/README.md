@@ -20,16 +20,13 @@ Le mod est un **overhaul de systèmes** : il touche à la progression, l'économ
 5. **Les défis majeurs sont proposés, jamais imposés par surprise.** Les boss et miniboss ne poursuivent pas le joueur et ne lancent pas eux-mêmes le combat.
 6. **Chaque activité a une raison d'exister.** Les combats rapportent peu d'argent mais sont renouvelables ; les contrats de capture financent l'économie ; les boss apportent les matériaux rares ; les services convertissent les ressources en puissance.
 
-## Jeu cible proposé
+## Jeu cible retenu
 
-Les mécaniques demandées nécessitent un jeu de **troisième génération** : natures, IV, EV, reproduction, œufs et egg-moves. L'API 3 de Gen1Recomp est donc le socle pertinent.
+<badge>Décision validée : Emerald uniquement</badge>
 
-Proposition de périmètre initial :
-- **Première cible : Pokémon FireRed.**
-- **Compatibilité suivante : LeafGreen**, après vérification de la parité des cartes, scripts et événements.
-- **Emerald : hors du premier périmètre**, car la structure de Hoenn et les données de contenu nécessitent un travail d'adaptation spécifique.
+Le premier périmètre cible exclusivement **Pokémon Emerald** et la région de Hoenn. FireRed, LeafGreen, Ruby et Sapphire sont hors périmètre pour cette première version. Aucune compatibilité avec ces jeux ne sera annoncée.
 
-Ce choix est une recommandation de travail, pas une décision définitive. La liste des jeux du manifeste sera fixée après validation.
+L'API 3 de Gen1Recomp constitue la base du mod. Le contenu, les cartes, les rencontres, les dresseurs, les boutiques, les personnages et les tests seront conçus pour Emerald. La matrice de capacités du moteur confirme des systèmes spécifiques à Emerald tels que les baies, les Pokéblocs, les concours, les bases secrètes et la Zone de Combat ; leur exposition au mod reste à distinguer de leur disponibilité native dans le jeu.
 
 ## Boucle principale
 
@@ -55,8 +52,8 @@ Les combats ordinaires ne donnent ni EXP ni EV. Ils restent néanmoins utiles po
 - [ACTIVITIES_AND_CHARACTERS.md](ACTIVITIES_AND_CHARACTERS.md) — personnages, minibosses, boss et densité du contenu.
 - [TECHNICAL_FEASIBILITY.md](TECHNICAL_FEASIBILITY.md) — état réel de l'API 3 et extensions moteur nécessaires.
 - [ROADMAP_AND_TEST_PLAN.md](ROADMAP_AND_TEST_PLAN.md) — étapes de conception, prototypes et critères d'acceptation.
-- [OPEN_DECISIONS.md](OPEN_DECISIONS.md) — arbitrages à valider avant de commencer à coder.
+- [RECOMMENDED_FEATURES.md](RECOMMENDED_FEATURES.md) — ajouts recommandés autour des systèmes propres à Hoenn.
 
 ## État d'avancement
 
-La vision générale est cohérente. En revanche, la consommation sûre de Pokémon appartenant au joueur, les changements de nature/IV/EV/niveau, la gestion des Pokémon stockés dans les boîtes et le filtrage complet des objets en combat nécessitent encore une preuve de faisabilité ou une extension publique du moteur. Ces points sont des dépendances bloquantes, pas des détails à repousser après le premier prototype.
+La vision générale est cohérente et le jeu cible est maintenant fixé à Emerald. La consommation sûre de Pokémon appartenant au joueur, les changements de nature/IV/EV/niveau, l'accès aux boîtes et le filtrage complet des objets en combat nécessitent encore une preuve de faisabilité ou une extension publique du moteur. Les systèmes Hoenn natifs constituent des opportunités de contenu, mais leur présence dans le moteur ne signifie pas que chaque opération est déjà accessible à un mod par l'API publique.
