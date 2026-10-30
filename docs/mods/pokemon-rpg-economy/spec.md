@@ -5,7 +5,7 @@
 **Jeu cible :** Pokémon Emerald uniquement  
 **Dépôt :** [rakmahefa/G1R-Mods](https://github.com/rakmahefa/G1R-Mods)  
 **Dossier de conception :** [README](README.md)  
-**Historique :** PRs [#3](https://github.com/rakmahefa/G1R-Mods/pull/3) à [#8](https://github.com/rakmahefa/G1R-Mods/pull/8) fusionnées ; PR #8 a ajouté la RFC d'API transactionnelle sans modifier le moteur. Baseline main après #8 : `e68febd862a9e92de2959457f92c55b6877d6e1d`. L'implémentation du bundle Lua source est en PR [#9](https://github.com/rakmahefa/G1R-Mods/pull/9) (brouillon, CI #41056713666 réussie ; pas encore fusionnée).
+**Historique :** PRs [#3](https://github.com/rakmahefa/G1R-Mods/pull/3) à [#9](https://github.com/rakmahefa/G1R-Mods/pull/9) fusionnées. PR #8 apporte la RFC d'API transactionnelle (proposition documentaire) ; PR #9 intègre le bundle Lua source généré au build. Baseline main après #9 : `baa81b25501da7dcd28eb75280830f845f0899ff`.
 
 ---
 
