@@ -8,7 +8,7 @@ L'économie doit éviter deux extrêmes :
 - une économie trop généreuse qui rend les choix insignifiants ;
 - une économie trop pauvre qui bloque la progression si le joueur ne souhaite pas répéter un contenu.
 
-Les valeurs précises seront définies après le choix du jeu cible et un relevé des niveaux, prix, récompenses de dresseurs et quantités d'objets du jeu original.
+La base de référence est désormais Pokémon Emerald. Les prix, niveaux, revenus et rencontres seront relevés dans Emerald uniquement, puis simulés palier par palier.
 
 ## 2. Sources et usages de l'argent
 
@@ -32,7 +32,34 @@ Les valeurs précises seront définies après le choix du jeu cible et un relev�
 
 Les soins au Centre Pokémon ne doivent pas devenir une dépense obligatoire si le joueur doit déjà investir dans la progression de son équipe. Le Centre est avant tout un point de repos et de renouvellement des dresseurs.
 
-## 3. Tableau de contrats de capture
+## 3. Rang de guilde et progression de réputation
+
+En complément des badges, le joueur progresse dans une **réputation de guilde**. Les badges restent l'unique référence du plafond de niveau ; la réputation sert à débloquer des contrats spécialisés, des services, des remises limitées et des recettes.
+
+Sources de réputation proposées :
+- contrats de capture et contrats d'expédition complétés ;
+- miniboss et boss vaincus pour la première fois ;
+- découvertes de lieux et relevés d'espèces ;
+- résultats remarquables dans les concours.
+
+La réputation ne doit pas pouvoir être farmée à l'infini par un seul contrat ou un même dresseur renouvelable. Chaque activité possède un plafond, un premier succès récompensé ou une rotation contrôlée. Elle ne remplace jamais les badges et ne permet pas de dépasser le plafond de niveau.
+
+## 4. Baies et Pokéblocs : deuxième boucle économique
+
+Emerald possède des arbres à baies, un mélangeur et des Pokéblocs. Le mod devrait s'appuyer sur cette activité plutôt que d'inventer un système de récolte entièrement séparé.
+
+Boucle proposée :
+1. récolter et cultiver des baies au fil de l'exploration ;
+2. répondre à des contrats de livraison de baies précises ou de lots ;
+3. transformer certaines baies en Pokéblocs ;
+4. remettre des Pokéblocs ou les utiliser pour préparer un Pokémon aux concours ;
+5. obtenir des Pokédollars, des points de réputation, des rubans ou des recettes de collection.
+
+Les Pokéblocs doivent rester utiles sans devenir des consommables de combat. La règle d'interdiction des objets en combat de dresseur et de boss ne doit pas être contournée par des bonus activés avant le combat.
+
+Les baies peuvent aussi servir à des contrats d'approvisionnement, ce qui donne une source de revenu qui ne nécessite pas de sacrifier un Pokémon. Les taux de récompense doivent prendre en compte le temps de culture, la rareté de la baie et le rendement réel.
+
+## 5. Tableau de contrats de capture
 
 Un tableau de contrats est installé dans chaque Centre Pokémon, à la place de l'affichage mural/cartographique retenu pour ce système. Un personnage placé à côté du tableau gère les contrats et le rachat.
 
@@ -65,7 +92,7 @@ Un contrat ne peut être payé qu'une fois. Un même Pokémon ne peut pas valide
 
 La remise de Pokémon provenant du PC/boîtes doit être couverte. Le moteur actuel n'expose pas encore une opération publique générique pour consommer proprement un Pokémon stocké ; ce point est bloquant pour une implémentation complète.
 
-## 4. Prix des outils de capture
+## 6. Prix des outils de capture
 
 Les Poké Balls, Super Balls, Hyper Balls et autres outils de capture doivent être moins chers que dans le jeu d'origine, car les contrats de capture deviennent une source de revenus essentielle.
 
@@ -73,7 +100,7 @@ Cette réduction ne signifie pas qu'ils doivent être gratuits. Leur prix doit e
 
 Le prix peut progresser avec les paliers, mais la disponibilité des outils doit rester cohérente avec le niveau de risque de la zone.
 
-## 5. Entraînement : niveaux achetés
+## 7. Entraînement : niveaux achetés
 
 Le service d'entraînement remplace la progression par EXP. Le joueur paie pour faire monter un Pokémon d'un ou plusieurs niveaux, dans la limite du plafond de badges.
 
@@ -87,7 +114,7 @@ Le coût doit être suffisamment élevé pour que le joueur ne puisse pas entra�
 
 Le service de niveau est conçu comme une dépense d'argent. Il ne consomme pas de Pokémon donneur dans la proposition initiale ; cette exception doit être validée dans les décisions ouvertes.
 
-## 6. Services de l'arène
+## 8. Services de l'arène
 
 Un personnage de service est associé à chaque arène. Les services sont débloqués progressivement et leur prix dépend du palier. Les modifications sont transactionnelles : validation des conditions, confirmation du joueur, consommation du donneur et paiement doivent être effectués ensemble, sans perte partielle en cas d'erreur.
 
@@ -139,7 +166,7 @@ Le service d'évolution permet de déclencher une évolution contre paiement et 
 
 Le Pokémon cible ne doit jamais être consommé par erreur : seul le donneur explicitement sélectionné sert de paiement.
 
-## 7. Boutique de TM
+## 9. Boutique de TM
 
 Un commerçant spécialisé propose la collection de TM disponible pour le jeu cible.
 
@@ -151,7 +178,7 @@ Un commerçant spécialisé propose la collection de TM disponible pour le jeu c
 
 L'objectif est de rendre l'accès à une technique puissant mais réfléchi, sans rendre les TM inutilisables.
 
-## 8. Day Care : egg-moves et échange d'œufs
+## 10. Day Care : egg-moves et échange d'œufs
 
 ### Transmission d'un egg-move
 
@@ -171,12 +198,12 @@ Règles proposées :
 - les cinq œufs sont consommés ;
 - le Pokémon reçu est tiré au sort dans une sélection contrôlée de dix espèces ;
 - aucune espèce légendaire n'est éligible ;
-- le Pokémon reçu est de niveau 1, conformément à la proposition de design ;
+- le Pokémon reçu est généré directement au niveau 5 ;
 - la liste des dix espèces peut changer selon le palier, afin de préserver la valeur de l'échange.
 
-Attention : dans les jeux de génération III, les œufs éclosent normalement au niveau 5. Le niveau 1 est donc une récompense spéciale et non le comportement standard. La création d'un Pokémon valide au niveau 1 doit être vérifiée avec le moteur.
+Le niveau 5 correspond au niveau normal d'éclosion en génération III. Le service remet donc un Pokémon déjà généré au niveau 5, et non un œuf à faire éclore. Il faut préserver les règles de création normales du Pokémon (nature, IV, capacité, personnalité, moves de départ) et exclure explicitement les espèces légendaires et les formes qui ne sont pas de premier stade.
 
-## 9. Matériaux et objets tenus
+## 11. Matériaux et objets tenus
 
 Les miniboss et boss fournissent des matériaux identifiés par palier. Ces matériaux ne remplacent pas les Pokédollars : ils constituent une seconde économie réservée aux récompenses rares.
 
@@ -187,7 +214,7 @@ Un personnage de crafting dans les arènes échange les matériaux de boss contr
 
 Les recettes doivent être déterministes et lisibles : le joueur sait quel boss ou quel type de matériau lui manque. Les matériaux de haut palier ne doivent pas être remplaçables par une grande quantité d'argent seul.
 
-## 10. Garde-fous contre les abus
+## 12. Garde-fous contre les abus
 
 - Une capture remise à un contrat est supprimée avant paiement, dans une transaction atomique.
 - Un Pokémon vendu ne peut pas également être donneur d'un service.
