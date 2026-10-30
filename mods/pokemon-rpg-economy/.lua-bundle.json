@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "output": "lib/runtime.bundle.lua",
+  "modules": [
+    "cache",
+    "diagnostics",
+    "persistence",
+    "result",
+    "validation"
+  ]
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build deterministic, installable ZIPs for mods in this monorepo."""
+"""Build deterministic installable ZIPs for mods in this monorepo."""
 
 from __future__ import annotations
 
@@ -12,6 +12,8 @@ import stat
 import sys
 import zipfile
 from pathlib import Path
+
+from build_lua_bundle import build_bundle
 
 ROOT = Path(__file__).resolve().parent.parent
 MODS_DIR = ROOT / "mods"
@@ -93,26 +95,48 @@ def build_one(mod_dir: Path, output_dir: Path) -> Path:
     if missing:
         raise SystemExit(f"{mod_id}: add test paths to .modkitignore: {', '.join(missing)}")
 
+    bundle = build_bundle(mod_dir)
+    bundle_output, bundle_text, bundled_sources = bundle or (None, None, set())
+    entries: list[tuple[str, bytes, int]] = []
+    for path in files:
+        relative = path.relative_to(mod_dir).as_posix()
+        if relative in bundled_sources:
+            continue
+        mode = 0o100755 if path.stat().st_mode & stat.S_IXUSR else 0o100644
+        entries.append((relative, path.read_bytes(), mode))
+
+    if bundle is not None:
+        if any(rel == bundle_output for rel, _, _ in entries):
+            raise SystemExit(f"{mod_id}: generated bundle path already exists in source files")
+        entries.append((bundle_output, bundle_text.encode("utf-8"), 0o100644))
+    entries.sort(key=lambda row: row[0])
+
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / f"{mod_id}-{version}.zip"
     with zipfile.ZipFile(output_path, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
-        for path in files:
-            relative = path.relative_to(mod_dir).as_posix()
+        for relative, content, mode in entries:
             info = zipfile.ZipInfo(relative, date_time=(1980, 1, 1, 0, 0, 0))
             info.compress_type = zipfile.ZIP_DEFLATED
-            permissions = 0o100755 if path.stat().st_mode & stat.S_IXUSR else 0o100644
-            info.external_attr = permissions << 16
-            archive.writestr(info, path.read_bytes())
+            info.external_attr = mode << 16
+            archive.writestr(info, content)
 
     with zipfile.ZipFile(output_path) as archive:
-        names = archive.namelist()
+        names = set(archive.namelist())
         if "manifest.json" not in names or manifest.get("entry") not in names:
             raise SystemExit(f"Package verification failed for {output_path}")
         if any(name.endswith("_test.lua") for name in names):
             raise SystemExit(f"Test file leaked into package: {output_path}")
+        if bundle is not None:
+            if bundle_output not in names:
+                raise SystemExit(f"Generated bundle missing from package: {bundle_output}")
+            leaked = sorted(bundled_sources & names)
+            if leaked:
+                raise SystemExit(f"Unbundled Lua sources leaked into package: {leaked}")
 
     digest = hashlib.sha256(output_path.read_bytes()).hexdigest()
     print(f"{output_path.relative_to(ROOT)}  sha256:{digest}")
+    if bundle is not None:
+        print(f"  bundled {len(bundled_sources)} Lua modules -> {bundle_output}")
     return output_path
 
 
@@ -137,6 +161,6 @@ def main() -> int:
 if __name__ == "__main__":
     try:
         raise SystemExit(main())
-    except (OSError, json.JSONDecodeError, zipfile.BadZipFile) as exc:
+    except (OSError, json.JSONDecodeError, zipfile.BadZipFile, ValueError) as exc:
         print(f"package: {exc}", file=sys.stderr)
         raise SystemExit(1)

@@ -1,6 +1,6 @@
 SHELL := /bin/bash
 
-.PHONY: help bootstrap update-engine list new check test smoke-template package clean
+.PHONY: help bootstrap update-engine list new check test smoke-template bundle package clean
 
 help:
 	@printf '%s\n' \
@@ -9,9 +9,10 @@ help:
 	  'list            List discovered mod packages' \
 	  'new MOD=<id>    Create a mod from templates/mod-template' \
 	  'check           Check repository structure and run modkit lint' \
-	  'test            Run each mod tests/*_test.lua suite with LuaJIT' \
+	  'test            Run mod tests with LuaJIT and the headless SDK' \
 	  'smoke-template  Exercise the template through lint, SDK load, and ZIP packaging' \
-  'package         Build deterministic installable ZIP files in dist/' \
+	  'bundle MOD=<id> Generate a mod runtime Lua source bundle under build/' \
+	  'package         Build deterministic installable ZIP files in dist/' \
 	  'clean           Remove build, dist, and local cache outputs'
 
 bootstrap:
@@ -38,6 +39,10 @@ test:
 
 smoke-template:
 	@./scripts/smoke-template.sh
+
+bundle:
+	@test -n "$(MOD)" || { echo 'Usage: make bundle MOD=pokemon-rpg-economy' >&2; exit 2; }
+	@python3 scripts/build_lua_bundle.py --mod-dir "mods/$(MOD)" --output "build/bundles/$(MOD)/lib/runtime.bundle.lua"
 
 package:
 	@./scripts/package.sh
