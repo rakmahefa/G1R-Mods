@@ -1,6 +1,6 @@
 # Pokémon — RPG Economy Overhaul
 
-**Statut :** conception et RFC transactionnelle fusionnées (PRs #3 à #8) ; bundle Lua source implémenté dans la PR #9, encore en brouillon avec CI réussie
+**Statut :** conception, RFC transactionnelle et bundle Lua source fusionnés (PRs #3 à #9)
 **Identifiant de travail :** pokemon-rpg-economy  
 **Dépôt :** G1R-Mods  
 **Périmètre de cette documentation :** design, économie, contenu, faisabilité et plan de validation. Le code runtime est dans mods/pokemon-rpg-economy/ ; ses sources de bibliothèque restent modulaires et sont assemblées au packaging.
@@ -62,6 +62,6 @@ Les combats ordinaires ne donnent ni EXP ni EV. Ils restent néanmoins utiles po
 
 ## État d'avancement
 
-La bibliothèque et le hook EXP/EV sont intégrés à main. La PR #9 propose un bundle source Lua généré à partir des modules de lib/ : les sources restent séparées dans Git, tandis que le ZIP contient uniquement lib/runtime.bundle.lua pour la bibliothèque runtime. Ce bundle est compilé par le load() sandboxé du moteur ; aucun binaire natif ni bytecode n'est utilisé.
+La bibliothèque, le hook EXP/EV et le pipeline de bundle Lua source sont intégrés à main via les PRs #6, #7 et #9. Les sources restent séparées dans Git, tandis que le ZIP contient le seul lib/runtime.bundle.lua pour la bibliothèque runtime. La CI #41056713666 a validé lint, tests SDK headless, smoke-template et packaging. Ce bundle est compilé par le load() sandboxé du moteur ; aucun binaire natif ni bytecode n'est utilisé.
 
 Le mod ne constitue pas encore une boucle économique jouable. La consommation sûre de Pokémon, les mutations de niveau/nature/IV/EV, les accès aux boîtes et le filtrage des objets en combat restent bloqués par des capacités publiques à prouver ou à faire ajouter au moteur. La RFC POKEMON_TRANSACTION_API.md a été fusionnée dans la PR #8, mais reste une proposition : elle ne correspond pas à une API moteur existante. Les systèmes Hoenn natifs constituent des opportunités de contenu, sans garantir que chaque opération est déjà accessible à un mod.
