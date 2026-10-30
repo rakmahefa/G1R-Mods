@@ -1,0 +1,17 @@
+return {
+  summary = "Emerald-only RPG economy mod; initial release provides a private safety-focused library.",
+  author = "rakmahefa",
+  tags = { "gameplay", "economy", "pokemon-emerald" },
+  differences = {
+    changed = {},
+    added = { "Private API 3 library foundation for Pokémon Emerald." },
+    known = {
+      "Gameplay features are not implemented yet.",
+      "Pokémon mutation and cross-resource transactions remain blocked on a supported engine API.",
+    },
+  },
+  credits = {
+    { who = "Gen1Recomp", for_ = "public mod API and headless SDK" },
+  },
+  compat = { engine = ">=0.0.0-dev <1.0.0", modApi = 3 },
+}
