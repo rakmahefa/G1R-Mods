@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 source "$ROOT/scripts/common.sh"
 g1r_require_engine
 g1r_require_luajit
@@ -21,6 +21,19 @@ while IFS= read -r MOD_DIR; do
     continue
   fi
 
+  # Test bundled mods from a staging copy identical in runtime shape to the ZIP.
+  TEST_MOD_PATH="../../mods/$MOD_ID"
+  if [[ -f "$MOD_DIR/.lua-bundle.json" ]]; then
+    STAGED_MOD="$ROOT/build/headless-mods/$MOD_ID"
+    rm -rf "$STAGED_MOD"
+    mkdir -p "$ROOT/build/headless-mods"
+    cp -a "$MOD_DIR" "$STAGED_MOD"
+    "$G1R_PYTHON" "$ROOT/scripts/build_lua_bundle.py" \
+      --mod-dir "$MOD_DIR" \
+      --output "$STAGED_MOD/lib/runtime.bundle.lua"
+    TEST_MOD_PATH="../../build/headless-mods/$MOD_ID"
+  fi
+
   MOD_TEST_COUNT=0
   while IFS= read -r TEST_FILE; do
     [[ -n "$TEST_FILE" ]] || continue
@@ -30,7 +43,7 @@ while IFS= read -r MOD_DIR; do
     if ! (
       cd "$G1R_ENGINE"
       G1R_ENGINE_ROOT="$G1R_ENGINE" \
-      G1R_MOD_DIR="../../mods/$MOD_ID" \
+      G1R_MOD_DIR="$TEST_MOD_PATH" \
       G1R_MOD_ID="$MOD_ID" \
       "$G1R_LUAJIT" "$TEST_FILE"
     ); then
