@@ -5,7 +5,7 @@
 **Jeu cible :** Pokémon Emerald uniquement  
 **Dépôt :** [rakmahefa/G1R-Mods](https://github.com/rakmahefa/G1R-Mods)  
 **Dossier de conception :** [README](README.md)  
-**Historique :** PRs [#3](https://github.com/rakmahefa/G1R-Mods/pull/3), [#4](https://github.com/rakmahefa/G1R-Mods/pull/4), [#5](https://github.com/rakmahefa/G1R-Mods/pull/5), [#6](https://github.com/rakmahefa/G1R-Mods/pull/6) et [#7](https://github.com/rakmahefa/G1R-Mods/pull/7) fusionnées ; main actuel après #7 : `a359f7c17df1b9240e43fbf385cf849bc9805993`. La proposition transactionnelle fait l'objet de la PR [#8](https://github.com/rakmahefa/G1R-Mods/pull/8), encore en revue.
+**Historique :** PRs [#3](https://github.com/rakmahefa/G1R-Mods/pull/3) à [#8](https://github.com/rakmahefa/G1R-Mods/pull/8) fusionnées ; PR #8 a ajouté la RFC d'API transactionnelle sans modifier le moteur. Baseline main après #8 : `e68febd862a9e92de2959457f92c55b6877d6e1d`.
 
 ---
 
@@ -93,11 +93,14 @@ Règles d'éligibilité des dix espèces :
 
 ### 3.1 Bibliothèque interne et isolation du mod
 
-Le mod doit disposer d'une petite bibliothèque privée sous `mods/pokemon-rpg-economy/lib/`. Elle centralise le chargement local des modules, la validation, les résultats/erreurs, la persistance versionnée, les caches bornés et les diagnostics.
+Le mod conserve ses modules sources séparés sous mods/pokemon-rpg-economy/lib/, puis les assemble en un seul bundle source Lua lors du build. La configuration .lua-bundle.json est versionnée mais exclue de l'archive installable.
 
-Ses règles détaillées sont définies dans [LIBRARY_DESIGN.md](LIBRARY_DESIGN.md). Le chargement local doit utiliser uniquement `mod:read` et `load` dans le sandbox du mod, avec une table blanche de chemins autorisés. Aucun `require("src.*")`, accès aux internals, monkey-patching, globale ou dépendance à un autre mod ne sera accepté.
+main.lua lit une seule fois lib/runtime.bundle.lua avec mod:read puis le compile avec load dans le sandbox. Le générateur ne produit ni bibliothèque native ni bytecode LuaJIT. Le ZIP contient le bundle, pas les sources modulaires séparées ; les sources restent disponibles dans Git pour les tests, les revues et la maintenance.
 
-La bibliothèque doit rester petite et pure autant que possible. Elle s'appuie sur les événements, hooks et services officiels du moteur au lieu de les réimplémenter. Elle ne prétend pas garantir le rollback d'une opération Pokémon si l'API moteur ne fournit pas cette garantie.
+Le pipeline conserve le chargement paresseux des modules, leur cache local et le rejet des noms non inclus. make test construit une copie staging du mod avec le même bundle que celui distribué, puis utilise le vrai SDK headless. make package génère le bundle sans modifier l'arbre source.
+
+Les contrats détaillés sont définis dans LIBRARY_DESIGN.md. Aucun require("src.*"), accès aux internes, monkey-patching, globale ou dépendance à un autre mod ne sera accepté. Le bundle ne compense pas les capacités absentes de l'API publique : les transactions et mutations Pokémon restent bloquées jusqu'à l'existence d'un contrat moteur officiel.
+
 ## 4. Dépendances techniques prioritaires
 
 Les constats ci-dessous proviennent de `TECHNICAL_FEASIBILITY.md` et doivent être revalidés sur la révision moteur effectivement épinglée avant toute conclusion nouvelle.
@@ -109,7 +112,7 @@ Les constats ci-dessous proviennent de `TECHNICAL_FEASIBILITY.md` et doivent êt
 | Ajouter PNJ et écrans | API publique identifiée | Prototype UI / cycle de vie session |
 | Sauvegarder des données du mod | `mod.save` / `mod.storage` documentés | Définir un schéma persistant versionné |
 | Soins effectifs / PC effectif | Pas d'événement public explicite identifié | Prototype de détection Emerald ; aucun reset sur simple ouverture |
-| Consommer un Pokémon d'équipe ou de boîte | Pas d'opération publique générale identifiée ; proposition de références opaques et transactions dans POKEMON_TRANSACTION_API.md / PR #8 | Extension moteur requise avant les services |
+| Consommer un Pokémon d'équipe ou de boîte | Pas d'opération publique générale identifiée ; RFC de références opaques et transactions fusionnée via PR #8 | Extension moteur requise avant les services |
 | Modifier niveau, nature, IV, EV, moves ou évolution d'un Pokémon choisi | API publique générique non identifiée | Extension moteur / preuves par opération |
 | Lire et consommer les Pokémon des boîtes | API publique non identifiée | Décider équipe seule ou boîte + équipe |
 | Filtrer les objets de sac dans les combats | Hook public spécifique manquant dans l'audit | Extension moteur requise pour blocage complet |
@@ -173,8 +176,10 @@ Tâches :
 La première tranche est présente dans `mods/pokemon-rpg-economy/` et fusionnée dans main via PR #6. Elle inclut les modules communs, le manifeste Emerald/API 3 et les tests SDK headless. La CI de PR #6 a passé `make check`, `make test`, `make smoke-template` et `make package`. Le hook de suppression EXP/EV a ensuite été ajouté et fusionné via PR #7. La validation en jeu n'a pas encore été faite.
 
 Tâches :
-- ajouter le petit chargeur local documenté dans `LIBRARY_DESIGN.md`, avec liste blanche, cache, détection de cycles et erreurs explicites ;
-- prouver le chargement de modules via `mod:read` + `load` dans le SDK headless ;
+- garder les sources de bibliothèque séparées et décrire leur inventaire dans `.lua-bundle.json` ;
+- générer le bundle déterministe avec `scripts/build_lua_bundle.py`, sans modifier les sources versionnées ;
+- charger le bundle par une lecture `mod:read` et une compilation `load` dans le sandbox du SDK headless ;
+- conserver le cache local, le chargement paresseux, la détection de cycles et les erreurs explicites ;
 - ajouter seulement les primitives utilisées immédiatement : validation, format de résultat, diagnostics contrôlés et accès de persistance versionné ;
 - garder le cache borné et limité aux données immuables ; ne pas créer de cache d'équipe/session ;
 - ajouter les tests d'import, d'isolation, d'entrées invalides, de module absent et de reprise ;
@@ -213,7 +218,7 @@ Tâches :
 
 #### 1C. Transactions Pokémon (bloquant majeur)
 
-**Statut :** proposition de contrat rédigée dans [POKEMON_TRANSACTION_API.md](POKEMON_TRANSACTION_API.md), PR [#8](https://github.com/rakmahefa/G1R-Mods/pull/8) en revue ; aucune API de ce type n'existe encore dans le sous-module épinglé.
+**Statut :** RFC documentée dans [POKEMON_TRANSACTION_API.md](POKEMON_TRANSACTION_API.md) et fusionnée via PR [#8](https://github.com/rakmahefa/G1R-Mods/pull/8) ; aucune API de ce type n'existe encore dans le sous-module épinglé.
 
 Définir et prouver une API publique, ou préparer une proposition moteur, qui permette au minimum :
 - identifier de façon stable un Pokémon dans l'équipe ou une boîte ;
