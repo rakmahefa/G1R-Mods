@@ -125,75 +125,26 @@ T.check(type(observedContext) == "table" and observedContext.loser ~= nil,
 
 run.release()
 
-local bootstrap = dofile(mod_dir .. "/lib/bootstrap.lua")
-local Validation = dofile(mod_dir .. "/lib/validation.lua")
-local Result = dofile(mod_dir .. "/lib/result.lua")
-local Cache = dofile(mod_dir .. "/lib/cache.lua")
-local Persistence = dofile(mod_dir .. "/lib/persistence.lua")
-local Diagnostics = dofile(mod_dir .. "/lib/diagnostics.lua")
+local bundle = dofile(mod_dir .. "/lib/runtime.bundle.lua")
+T.check(type(bundle) == "table" and type(bundle.new) == "function",
+  "generated runtime bundle exposes its library factory")
+
+local library = bundle.new()
+local Validation = library.load("validation")
+local Result = library.load("result")
+local Cache = library.load("cache")
+local Persistence = library.load("persistence")
+local Diagnostics = library.load("diagnostics")
 
 local function expectError(callback, expected, label)
   local ok, message = pcall(callback)
   T.check(not ok and tostring(message):find(expected, 1, true) ~= nil, label)
 end
 
--- Module cache: one source read and compile for repeated imports.
-local reads, compiles = 0, 0
-local loader = bootstrap.new({
-  read = function(path)
-    reads = reads + 1
-    T.eq(path, "lib/validation.lua", "only the allowlisted module path is read")
-    return "validation-source"
-  end,
-  compile = function(source, chunkname)
-    compiles = compiles + 1
-    T.eq(chunkname, "@lib/validation.lua", "module receives a stable chunk name")
-    return function() return { marker = source } end
-  end,
-})
-local first = loader.load("validation")
-local second = loader.load("validation")
-T.eq(first, second, "repeated module loads return the cached table")
-T.eq(reads, 1, "module source is read once")
-T.eq(compiles, 1, "module source is compiled once")
-expectError(function() loader.load("not-allowlisted") end,
-  "not allowlisted", "unknown modules are rejected")
-
-local missingLoader = bootstrap.new({
-  read = function() return nil, "test file missing" end,
-  compile = function() error("compiler must not run") end,
-})
-expectError(function() missingLoader.load("validation") end,
-  "test file missing", "missing module files fail explicitly")
-
-local compileLoader = bootstrap.new({
-  read = function() return "bad-source" end,
-  compile = function() return nil, "synthetic syntax error" end,
-})
-expectError(function() compileLoader.load("validation") end,
-  "synthetic syntax error", "compile errors include module context")
-
-local runtimeLoader = bootstrap.new({
-  read = function() return "runtime-error" end,
-  compile = function()
-    return function() error("synthetic module failure") end
-  end,
-})
-expectError(function() runtimeLoader.load("validation") end,
-  "synthetic module failure", "module initialization errors are surfaced")
-
-local cyclicLoader
-cyclicLoader = bootstrap.new({
-  read = function() return "cycle" end,
-  compile = function()
-    return function()
-      cyclicLoader.load("validation")
-      return {}
-    end
-  end,
-})
-expectError(function() cyclicLoader.load("validation") end,
-  "cyclic local library import", "recursive imports are rejected")
+T.eq(library.load("validation"), Validation,
+  "repeated imports return the cached module table")
+expectError(function() library.load("not-included") end,
+  "not present in generated bundle", "modules outside the bundle are rejected")
 
 -- Validation: finite values, bounds, integers, identifiers and dense arrays.
 T.check(Validation.isFiniteNumber(12.5), "finite numbers are accepted")
