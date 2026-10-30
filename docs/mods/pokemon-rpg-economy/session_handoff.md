@@ -15,7 +15,7 @@
 - PR #7 : blocage EXP/EV pendant les combats, fusionnée le 30 octobre 2026.
 - main après la fusion #7 : a359f7c17df1b9240e43fbf385cf849bc9805993.
 - Sous-module Gen1Recomp : toujours épinglé à 0be34bc76cecf996e91d2f905d1b4bb5f14d43ae lors du dernier contrôle.
-- PR #8 : https://github.com/rakmahefa/G1R-Mods/pull/8 ; proposition d'API transactionnelle Pokémon, branche docs/pokemon-transaction-api-proposal. Elle doit être alignée sur le main courant ; la CI du premier commit de cette PR (#41047173942) a réussi, mais la révision réalignée devra être retestée.
+- PR #8 : https://github.com/rakmahefa/G1R-Mods/pull/8 ; proposition d'API transactionnelle Pokémon, branche docs/pokemon-transaction-api-proposal. La branche est réalignée sur le main courant (commit 8666506c4a6666eebd3b53f16c21ebaacb8c3b26) ; la CI de cette révision est réussie (#41048219255).
 
 ## 2. Code déjà fusionné
 
