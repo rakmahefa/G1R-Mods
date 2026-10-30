@@ -61,5 +61,15 @@ return function(mod)
   assert(type(diagnosticLog.info) == "function",
     "diagnostics module is incomplete")
 
+  -- Emerald rule: combats grant neither EXP nor EVs. The engine awards EVs
+  -- before it applies EXP, so intercept the whole award pipeline here; an
+  -- exp.gain hook returning zero would still leave EVs behind.
+  assert(type(mod.hooks) == "table" and type(mod.hooks.wrap) == "function",
+    "battle reward hook API is unavailable")
+  mod.hooks:wrap("battle.exp_award", function(_next, _context)
+    -- Intentionally do not call next(): this policy replaces the full reward.
+    return nil
+  end)
+
   mod.log:info("library foundation loaded (API 3; Pokémon Emerald only)")
 end

@@ -7,8 +7,72 @@ package.path = engine .. "/?.lua;" .. engine .. "/?/init.lua;" .. package.path
 
 local T = require("tests.modkit")
 
--- Exercise the actual API 3 loader against a Gen 3 fixture. The exact
--- Emerald-only target and API level are checked from the parsed manifest.
+-- Prove the native award path first with an empty loader: this fixture
+-- must receive both battle EXP and EVs before the mod is enabled.
+local baselineData = T.sdk.gen3Data()
+local baselineRun = T.sdk.loadNone({
+  root = engine,
+  data = baselineData,
+  generation = 3,
+})
+
+local Pokemon = require("src.core.game3.pokemon")
+for key, value in pairs(baselineData.gen3Pokemon) do
+  Pokemon[key] = value
+end
+-- Pidgey's Gen 3 metadata is the test foe's native HP EV yield.
+Pokemon._speciesMeta[16].evHp = 1
+local Experience = require("src.core.game3.battle.experience")
+
+local function freshBattle(wild)
+  local function newMon()
+    return {
+      species = 4, level = 5, growthRate = 0, exp = 125,
+      hp = 10, maxHp = 10, item = 0, pokerus = 0, friendship = 70,
+      personality = 0,
+      evs = { hp = 0, atk = 0, def = 0, spe = 0, spa = 0, spd = 0 },
+    }
+  end
+  local playerMon, shareMon = newMon(), newMon()
+  shareMon.item = 182 -- Gen 3 Exp. Share.
+  local foe = {
+    species = 16,
+    mon = { species = 16, level = 1 },
+    participants = { [1] = true },
+  }
+  local state = {
+    wild = wild,
+    playerParty = { playerMon, shareMon },
+    player = { mon = playerMon, partyIndex = 1 },
+    enemy = foe,
+    session = {},
+  }
+  return state, foe, playerMon, shareMon
+end
+
+local function rewardOptions()
+  return {
+    getOpts = function()
+      return { traded = false, luckyEgg = false }
+    end,
+  }
+end
+
+for _, wild in ipairs({ true, false }) do
+  local state, foe, participant, shareHolder = freshBattle(wild)
+  local nativeAwards = Experience.awardFoe(state, foe, rewardOptions())
+  T.eq(#nativeAwards, 2,
+    (wild and "wild" or "trainer") .. " baseline awards participant and Exp. Share")
+  T.check(participant.exp > 125 and shareHolder.exp > 125,
+    (wild and "wild" or "trainer") .. " baseline grants battle EXP")
+  T.eq(participant.evs.hp, 1,
+    (wild and "wild" or "trainer") .. " baseline grants participant EVs")
+  T.eq(shareHolder.evs.hp, 1,
+    (wild and "wild" or "trainer") .. " baseline grants Exp. Share holder EVs")
+end
+baselineRun.release()
+
+-- Exercise the actual API 3 loader against the Emerald-targeted mod.
 local run = T.sdk.loadMod(mod_dir, {
   root = engine,
   data = T.sdk.gen3Data(),
@@ -24,6 +88,41 @@ T.same(run.mods[mod_id] and run.mods[mod_id].manifest.games, { "emerald" },
   "manifest targets Emerald and no other game")
 T.eq(rawget(_G, "MODULE_PATHS"), nil,
   "the local module allowlist does not leak into engine globals")
+
+-- A high-priority observer sees the real public hook call and delegates to
+-- the mod's hook. The mod hook then deliberately stops the native award path.
+local observedCalls, observedContext = 0, nil
+local removeObserver = run.loader.hooks:wrap(
+  "battle.exp_award",
+  function(nextFn, context)
+    observedCalls = observedCalls + 1
+    observedContext = context
+    return nextFn(context)
+  end,
+  1000,
+  "pokemon-rpg-economy-test-observer"
+)
+
+for _, wild in ipairs({ true, false }) do
+  local state, foe, participant, shareHolder = freshBattle(wild)
+  local participantExp, shareExp = participant.exp, shareHolder.exp
+  local blockedAwards = Experience.awardFoe(state, foe, rewardOptions())
+  T.eq(#blockedAwards, 0,
+    (wild and "wild" or "trainer") .. " mod hook suppresses the whole reward")
+  T.eq(participant.exp, participantExp,
+    (wild and "wild" or "trainer") .. " battles grant no EXP")
+  T.eq(shareHolder.exp, shareExp,
+    (wild and "wild" or "trainer") .. " Exp. Share grants no EXP")
+  T.eq(participant.evs.hp, 0,
+    (wild and "wild" or "trainer") .. " battles grant no participant EVs")
+  T.eq(shareHolder.evs.hp, 0,
+    (wild and "wild" or "trainer") .. " battles grant no Exp. Share EVs")
+end
+removeObserver()
+T.eq(observedCalls, 2, "the Emerald battle reward hook runs for wild and trainer battles")
+T.check(type(observedContext) == "table" and observedContext.loser ~= nil,
+  "battle reward hook receives its documented context")
+
 run.release()
 
 local bootstrap = dofile(mod_dir .. "/lib/bootstrap.lua")
