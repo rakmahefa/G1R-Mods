@@ -5,7 +5,7 @@
 **Jeu cible :** Pokémon Emerald uniquement  
 **Dépôt :** [rakmahefa/G1R-Mods](https://github.com/rakmahefa/G1R-Mods)  
 **Dossier de conception :** [README](README.md)  
-**Point de départ :** PR [#3](https://github.com/rakmahefa/G1R-Mods/pull/3), fusionnée dans `main` par le commit `8326759ab9316907ca453e5d0d095e6221805201`.
+**Historique documentaire :** PR [#3](https://github.com/rakmahefa/G1R-Mods/pull/3) (design initial) et PR [#4](https://github.com/rakmahefa/G1R-Mods/pull/4) (specification et handoff) sont fusionnées dans `main` ; le commit de référence de la planification est `3e2f187cbb1112fa8d39b833b51e035a997133fc`.
 
 ---
 
