@@ -34,7 +34,7 @@ Critère de sortie : le socle reste dans le sandbox, n'expose aucune globale, n'
 ### Phase 1 — Prototypes techniques moteur/API
 
 Prouver les éléments bloquants :
-- suppression simultanée EXP/EV ;
+- suppression simultanée EXP/EV (**preuve headless partielle réussie dans la PR #7 : combats sauvages et dresseurs, participant et Exp. Share ; run #41045753060, 85/85 checks ; couverture boss/miniboss, Pokérus/objets multiplicateurs et jeu réel encore à compléter**) ;
 - niveau des dresseurs selon la zone ;
 - détection des soins et du PC ;
 - interaction d'un PNJ et ouverture d'un écran ;
@@ -100,8 +100,8 @@ Critère de sortie : tous les boss sont facultatifs, non agressifs, correctement
 
 | Domaine | Vérifications |
 |---|---|
-| EXP | Aucun gain en combat sauvage, dresseur, miniboss ou boss |
-| EV | Aucun gain de combat, même avec Exp Share, Pokérus ou objets multiplicateurs |
+| EXP | Aucun gain en combat sauvage et dresseur : preuve headless #41045753060 ; miniboss/boss et jeu réel à valider |
+| EV | Aucun gain pour le participant et Exp. Share en combats sauvages/dresseurs : preuve headless #41045753060 ; Pokérus, objets multiplicateurs, miniboss/boss et jeu réel à valider |
 | Niveau | Un achat ne dépasse pas le cap ; capture ou retrait de boîte ne contourne pas la règle |
 | Dresseurs | Niveaux cohérents avec la zone et les badges |
 | Rematch | Un dresseur ne paie qu'une fois par cycle ; reset uniquement après repos effectif |
