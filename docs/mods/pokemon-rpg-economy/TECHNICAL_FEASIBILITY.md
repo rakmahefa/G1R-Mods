@@ -114,7 +114,7 @@ Il faudra donc proposer au moteur une API publique, sûre et transactionnelle, a
 
 Ces opérations doivent être atomiques : si la vérification, le paiement ou la modification échoue, aucun Pokémon ni argent ne doit être perdu.
 
-La RFC [POKEMON_TRANSACTION_API.md](POKEMON_TRANSACTION_API.md), actuellement portée par la PR [#8](https://github.com/rakmahefa/G1R-Mods/pull/8), décrit une référence opaque par Pokémon, des snapshots détachés, un coordinateur de transaction englobant Pokémon/argent/sac/modData, des reçus idempotents et une reprise après panne. C'est une proposition à examiner côté moteur, pas une capacité déjà livrée. La PR #8 est distincte du code du mod et ne modifie pas le sous-module moteur.
+La RFC [POKEMON_TRANSACTION_API.md](POKEMON_TRANSACTION_API.md), fusionnée via la PR [#8](https://github.com/rakmahefa/G1R-Mods/pull/8), décrit une référence opaque par Pokémon, des snapshots détachés, un coordinateur de transaction englobant Pokémon/argent/sac/modData, des reçus idempotents et une reprise après panne. C'est toujours une proposition à examiner côté moteur, pas une capacité déjà livrée. Sa fusion n'a modifié ni le sous-module ni le code du moteur.
 
 ### Clarification issue de l'audit du code moteur
 
