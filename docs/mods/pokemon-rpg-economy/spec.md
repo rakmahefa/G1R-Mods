@@ -395,7 +395,7 @@ La densité cible de boss (un miniboss par ville, deux miniboss + un boss sauvag
 
 ## 8. Prochaine session — première séquence recommandée
 
-1. Cloner/synchroniser le dépôt et sous-modules depuis `main), vérifier le commit courant et la révision moteur.
+1. Cloner/synchroniser le dépôt et les sous-modules depuis `main`, puis vérifier le commit courant et la révision moteur.
 2. Lire `docs/development.md`, `docs/architecture.md`, le template, le SDK headless et les trois documents techniques du mod.
 3. Exécuter `make bootstrap`, `make check`, `make test`, `make smoke-template` et consigner le résultat réel.
 4. Créer une branche de travail dédiée aux prototypes, pas au gameplay complet.
