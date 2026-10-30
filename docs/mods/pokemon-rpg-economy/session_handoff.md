@@ -4,7 +4,7 @@
 **Dépôt :** [rakmahefa/G1R-Mods](https://github.com/rakmahefa/G1R-Mods)  
 **Mod :** `pokemon-rpg-economy`  
 **Jeu cible :** Pokémon Emerald uniquement  
-**État :** PRs documentaires #3/#4/#5 fusionnées ; socle de bibliothèque implémenté dans la PR #6 (brouillon) ; gameplay non commencé ; première CI de code réussie.
+**État :** PRs documentaires #3/#4/#5 fusionnées ; socle de bibliothèque dans la PR #6 (brouillon, CI verte) ; hook de suppression EXP/EV dans la PR #7 (brouillon, CI à déclencher) ; aucun autre gameplay implémenté.
 
 ---
 
@@ -95,7 +95,7 @@ Ne pas choisir en silence à la place du joueur les règles qui détruisent des 
 
 D'après `TECHNICAL_FEASIBILITY.md`, à revalider directement dans le code moteur épinglé :
 
-- L'audit statique du moteur confirme que `battle.exp_award` peut court-circuiter le chemin complet de distribution ; `exp.gain` seul ne bloque pas les EV. Le test headless reste à écrire et exécuter avant de déclarer le comportement validé.
+- L'audit du moteur confirme que `battle.exp_award` enveloppe `Experience.awardFoe` et peut supprimer le pipeline complet ; `exp.gain` seul ne bloque pas les EV car `Pokemon.gainEVs` est appelé avant `Experience.apply`. Un test comparatif baseline/mod a été ajouté à la PR #7 ; sa CI reste à exécuter.
 - `trainer.party` peut modifier l'équipe, mais ne reçoit pas directement le mapId ; le mod doit suivre le contexte de carte.
 - `mod.world:party()` retourne une copie détachée ; elle ne permet pas de muter la sauvegarde en modifiant simplement le résultat.
 - Le moteur possède des primitives internes `Party.giveMon` et `Storage.*`, mais aucune façade API 3 documentée et transactionnelle n'a été identifiée pour consommer/muter un Pokémon précis. Ne pas utiliser `mod.game.session` ni les modules `src.*` directement.
@@ -143,10 +143,23 @@ La CI [#41044501372](https://github.com/rakmahefa/G1R-Mods/actions/runs/41044501
 
 Le code ne change encore aucun comportement de jeu. Cette CI ne valide ni les interactions en jeu ni les prototypes EXP/EV ou les transactions Pokémon.
 
+### Prototype EXP/EV — PR #7
+
+- PR [#7 — disable battle EXP and EV rewards](https://github.com/rakmahefa/G1R-Mods/pull/7).
+- Branche : `feat/pokemon-rpg-economy-disable-battle-exp-ev`.
+- Commit code : `832c5f52785de01f839fa8bb37090d5e65cbefa9`.
+- PR ouverte en brouillon ; base `main` pour déclencher le workflow CI du dépôt.
+- La branche descend du head de PR #6 (`c2c97187db0cf079d74dd2e090e0f668cf40850f`) ; le diff inclut temporairement la fondation jusqu'à fusion de PR #6.
+- Aucun changement au sous-module moteur.
+
+Le nouveau test headless commence par une baseline sans mod : le participant et le détenteur d'Exp. Share reçoivent les récompenses natives. Il charge ensuite le vrai mod avec le SDK et vérifie qu'en combat sauvage et de dresseur ni l'EXP ni les EV ne changent pour aucun des deux Pokémon. L'observateur de hook confirme que le wrapper `battle.exp_award` a été appelé.
+
+**CI en attente au moment de cette mise à jour.** Les cas boss/miniboss, les messages de montée de niveau et le comportement en jeu ne sont pas encore validés.
+
 ## 6. Suite recommandée
 
-1. Relire la PR #6 et garder le statut brouillon jusqu'à la revue/fusion décidée.
-2. Écrire le test headless de `battle.exp_award` et vérifier l'absence conjointe d'EXP et d'EV, y compris Exp Share et combats dresseurs/sauvages.
+1. Fusionner d'abord la PR #6 après revue, pour intégrer la fondation utilisée par la PR #7.
+2. Examiner le résultat CI de la PR #7 ; si les tests passent, compléter les cas boss/miniboss et la validation en jeu avant de considérer la règle totalement terminée.
 3. Définir puis documenter le contrat moteur transactionnel requis pour muter/consommer un Pokémon (identité stable, préconditions, commit/rollback, persistance et reprise).
 4. Prototyper séparément les niveaux de dresseurs, les objets de combat et les signaux de soin/PC, selon les blocages recensés.
 5. Ne commencer les services économiques qu'après preuve technique des opérations dont ils dépendent.

@@ -23,8 +23,8 @@ La base du mod reste Portable API 3. Les extensions moteur doivent être propos�
 
 | Système | Support existant identifié | Évaluation |
 |---|---|---|
-| Supprimer l'EXP des combats | Hook battle.exp_award avec une répartition contrôlée | Faisable côté API publique |
-| Supprimer les EV des combats | Les EV sont attribués dans le chemin d'attribution, avant l'application de l'EXP ; supprimer entièrement la récompense empêche aussi cet appel | Faisable via le même point, à tester |
+| Supprimer l'EXP des combats | Hook public `battle.exp_award` ; PR [#7](https://github.com/rakmahefa/G1R-Mods/pull/7) ajoute l'interception exclusive sans `next` et le test headless | Prototype implémenté ; CI en attente |
+| Supprimer les EV des combats | `Pokemon.gainEVs` s'exécute avant `Experience.apply` dans `Experience.awardFoe` ; le hook global supprime donc les deux appels, pas seulement le montant d'EXP | Prototype identique dans PR #7 ; CI en attente |
 | Modifier les équipes des dresseurs | Hook trainer.party qui reçoit la classe, l'identifiant du dresseur et son équipe ; il accepte une équipe transformée en retour | Faisable côté API publique |
 | Réduire les paiements des dresseurs | Les données des dresseurs supportent baseMoney | Faisable pour le montant de base |
 | Détecter les combats et les résultats | Événements battle.started, battle.ended et world.trainer_engaged | Faisable côté API publique |

@@ -104,7 +104,7 @@ Les constats ci-dessous proviennent de `TECHNICAL_FEASIBILITY.md` et doivent êt
 
 | Capacité | État recensé | Conséquence pour le plan |
 |---|---|---|
-| Bloquer EXP et EV via `battle.exp_award` | API publique identifiée ; tests nécessaires | Prototype prioritaire |
+| Bloquer EXP et EV via `battle.exp_award` | Prototype dans PR [#7](https://github.com/rakmahefa/G1R-Mods/pull/7) : baseline native puis suppression EXP/EV en combats sauvages et dresseurs, avec Exp. Share | CI headless en attente ; boss/miniboss et validation en jeu non couverts |
 | Modifier les équipes d'un dresseur via `trainer.party` | API publique identifiée ; le hook ne reçoit pas directement le mapId | Prototype de suivi de carte et de niveaux |
 | Ajouter PNJ et écrans | API publique identifiée | Prototype UI / cycle de vie session |
 | Sauvegarder des données du mod | `mod.save` / `mod.storage` documentés | Définir un schéma persistant versionné |
@@ -193,12 +193,13 @@ Tâches :
 
 #### 1A. EXP et EV
 
-- créer un cas de test headless sur `battle.exp_award` ;
-- vérifier combat sauvage, combat de dresseur, miniboss/boss ;
-- vérifier séparément l'EXP, les EV, les messages de montée de niveau et Exp Share ;
-- vérifier qu'aucun hook annexe ne réintroduit des EV.
+**En cours — prototype dans la PR [#7](https://github.com/rakmahefa/G1R-Mods/pull/7), CI en attente.**
 
-**Sortie :** preuve automatisée que les deux récompenses sont supprimées ensemble, ou proposition d'extension moteur documentée.
+- Le test établit d'abord une baseline sans mod où `Experience.awardFoe` accorde EXP et EV.
+- Avec le mod chargé par le SDK API 3, il vérifie le blocage de l'EXP et des EV pour le participant et le détenteur d'Exp. Share.
+- Les cas sauvages et dresseurs sont couverts ; boss/miniboss, messages de montée de niveau, et recherche d'un éventuel hook annexe restent à étendre.
+
+**Sortie :** CI headless verte sur ces cas, puis couverture complémentaire des boss/miniboss et validation en jeu ; sinon proposition d'extension moteur documentée.
 
 #### 1B. Équipes de dresseurs / niveaux par zone
 
