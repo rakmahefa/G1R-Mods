@@ -13,6 +13,11 @@ Les personnages ne doivent pas tous apparaître dès le début. Ils sont introdu
 | Artisan de la guilde | Arène ou atelier de ville | Échange de matériaux de boss contre objets tenus | Premier matériau de boss |
 | Émissaire de région | Ville-clé | Explique un nouveau système, donne des avantages et oriente le joueur | Paliers narratifs |
 | Informateur / chasseur de boss | Villes et routes | Donne des indices sur les boss cachés | Progression de l'exploration |
+| Intendant des baies | Ville et zones de culture | Achète des baies et distribue des contrats d'approvisionnement | Premier accès aux baies |
+| Mélangeur / spécialiste Pokéblocs | Centre de concours ou bâtiment dédié | Transforme les baies, propose des commandes et des objectifs de Pokéblocs | Réputation et progression des concours |
+| Conservateur de la guilde | Base secrète ou quartier général | Expose trophées, décorations et souvenirs des boss | Premier boss ou premier rang |
+| Agent PokéNav | Villes et points de rencontre | Propose des rematchs ciblés et des contrats d'entraînement | Badges et réputation |
+| Maître de la Zone de Combat | Zone de Combat | Introduit les défis post-game et leurs récompenses | Ligue terminée |
 
 Le personnage-clé doit apporter une fonction utile et une identité propre. Éviter de transformer chaque PNJ en simple menu de boutique.
 
@@ -32,7 +37,18 @@ Le personnage-clé doit apporter une fonction utile et une identité propre. Év
 
 Ce calendrier est indicatif. Les avantages doivent apparaître au moment où ils deviennent utiles, et non tous être visibles dès la première ville. Un nouveau personnage peut annoncer un service futur sans le rendre utilisable avant le badge correspondant.
 
-## 2. Tableau de capture dans les Centres Pokémon
+## 2. Réputation et apparition des personnages
+
+Les personnages de guilde apparaissent au rythme de la campagne. Les badges contrôlent les services de progression et le rang de guilde contrôle les activités secondaires. Un nouveau PNJ peut d'abord annoncer un service futur, puis l'ouvrir lorsque le joueur atteint les conditions requises.
+
+L'ordre de déblocage proposé est :
+- début : tableau de capture et contrats locaux ;
+- premiers badges : entraînement payé et contrats d'expédition ;
+- milieu de campagne : baies, Pokéblocs, concours et premiers services d'optimisation ;
+- badges avancés : artisanat de matériaux, boss de haut palier et trophées ;
+- après la Ligue : activités de maîtrise de la Zone de Combat.
+
+## 3. Tableau de capture dans les Centres Pokémon
 
 Chaque Centre Pokémon concerné reçoit :
 - un tableau de contrats ;
@@ -44,7 +60,7 @@ Le tableau peut présenter trois contrats simultanés dans la proposition actuel
 
 Le personnage peut commenter la rareté de l'espèce, donner un indice sur sa zone et expliquer la récompense. Le tableau constitue une interface de progression économique, mais aussi un moyen de faire découvrir les Pokémon propres aux environs.
 
-## 3. Services d'arène
+## 4. Services d'arène
 
 Le personnage de service de chaque arène est un représentant d'une guilde ou d'une école de préparation. Il ne doit pas se substituer au Champion ni altérer le déroulement du badge.
 
@@ -56,7 +72,7 @@ Les services apparaissent selon les badges et la progression du joueur. Exemple 
 
 Le même personnage peut proposer plusieurs services, mais l'interface doit clairement séparer les opérations et les ressources consommées.
 
-## 4. Rencontres optionnelles par emplacement
+## 5. Rencontres optionnelles par emplacement
 
 ### Dans chaque ville : un miniboss
 
@@ -93,7 +109,7 @@ Un boss dresseur est le défi majeur du segment de route. Il est annoncé comme 
 
 Il ne doit pas être confondu avec un dresseur de route renouvelable. Ses récompenses importantes sont uniques ou limitées au premier succès.
 
-## 5. Boss et miniboss : règles communes
+## 6. Boss et miniboss : règles communes
 
 - Aucun combat forcé par détection de proximité.
 - Aucun déplacement agressif vers le joueur.
@@ -107,7 +123,7 @@ Il ne doit pas être confondu avec un dresseur de route renouvelable. Ses récom
 
 Un miniboss qui bloque un passage ne peut bloquer que du contenu secondaire, un raccourci, une salle de récompense ou une zone spéciale. La progression principale vers les badges doit rester accessible sans vaincre tous les défis optionnels.
 
-## 6. Matériaux de boss
+## 7. Matériaux de boss
 
 Les matériaux sont classés par palier de campagne. Le nom et l'apparence peuvent refléter le type de boss ou sa zone, mais le rôle économique doit rester simple.
 
@@ -121,7 +137,7 @@ Chaque boss possède une table de récompenses spécifique. Les boss cachés peu
 
 Les matériaux servent principalement aux recettes d'objets tenus. Il faut éviter que les mêmes matériaux soient également une monnaie universelle pour tous les services, sinon le joueur ne fait plus de choix de dépense.
 
-## 7. Courbe de difficulté
+## 8. Courbe de difficulté
 
 Chaque rencontre doit être définie avec :
 - son palier de badge ;
@@ -136,9 +152,9 @@ Chaque rencontre doit être définie avec :
 
 Les boss sont plus difficiles que les dresseurs ordinaires du palier. Un boss situé dans une zone à laquelle le joueur accède tôt peut être volontairement trop puissant pour son équipe actuelle. Il doit alors être possible de repartir et de revenir après avoir investi dans les niveaux, les TM ou les services.
 
-## 8. Volume et production de contenu
+## 9. Volume et production de contenu
 
-La densité demandée représente un volume élevé : un miniboss par ville et quatre rencontres optionnelles par segment de route. Le nombre exact ne peut être établi qu'après le choix de la version et l'inventaire de ses cartes.
+La densité demandée représente un volume élevé : un miniboss par ville et quatre rencontres optionnelles par segment de route. Le nombre exact doit être établi à partir de la carte d'Emerald, y compris les détours accessibles avec Surf, Plongée, Vélo Mach et Vélo Course.
 
 Avant d'écrire les équipes, il faudra établir une carte de contenu avec :
 - la liste des villes et zones habitées ;
