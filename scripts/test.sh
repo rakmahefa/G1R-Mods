@@ -30,7 +30,7 @@ while IFS= read -r MOD_DIR; do
     if ! (
       cd "$G1R_ENGINE"
       G1R_ENGINE_ROOT="$G1R_ENGINE" \
-      G1R_MOD_DIR="$MOD_DIR" \
+      G1R_MOD_DIR="../../mods/$MOD_ID" \
       G1R_MOD_ID="$MOD_ID" \
       "$G1R_LUAJIT" "$TEST_FILE"
     ); then

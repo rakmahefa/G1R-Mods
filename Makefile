@@ -10,7 +10,8 @@ help:
 	  'new MOD=<id>    Create a mod from templates/mod-template' \
 	  'check           Check repository structure and run modkit lint' \
 	  'test            Run each mod tests/*_test.lua suite with LuaJIT' \
-	  'package         Build deterministic installable ZIP files in dist/' \
+	  'smoke-template  Exercise the template through lint, SDK load, and ZIP packaging' \
+  'package         Build deterministic installable ZIP files in dist/' \
 	  'clean           Remove build, dist, and local cache outputs'
 
 bootstrap:

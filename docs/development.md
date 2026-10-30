@@ -45,14 +45,14 @@ make package
 - `make smoke-template` creates a temporary mod from the template, runs upstream lint and its SDK smoke test, checks the ZIP, then removes the temporary files.
 - `make package` creates deterministic installable ZIP files and a SHA-256 manifest in `dist/`.
 
-The wrapper in `scripts/modkit.sh` invokes the pinned upstream `tools/modkit.py` with `--repo third_party/gen1recomp`, so absolute mod paths outside the engine checkout are supported.
+The wrapper in `scripts/modkit.sh` invokes the pinned upstream `tools/modkit.py` with `--repo third_party/gen1recomp`, so absolute mod paths outside the engine checkout are supported for CLI validation. The SDK test path is deliberately relative to the engine root because its filesystem shim resolves `mods/<id>` through that root.
 
 ## Writing ROM-free tests
 
 Tests run from the upstream engine root so its `tests.modkit` modules resolve. The runner exports:
 
 - `G1R_ENGINE_ROOT` — absolute path to the pinned engine checkout.
-- `G1R_MOD_DIR` — absolute path to the mod under test.
+- `G1R_MOD_DIR` — path to the mod relative to the engine root (for example `../../mods/my_mod`). This is required by the upstream SDK's filesystem shim.
 - `G1R_MOD_ID` — directory/manifest ID.
 
 Use `tests.modkit` and `T.sdk.loadMod(G1R_MOD_DIR, { root = G1R_ENGINE_ROOT })`. The SDK supplies the committed fixture dataset by default, so tests do not need a ROM or a local import cache.
