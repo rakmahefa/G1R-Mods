@@ -1,6 +1,6 @@
 # Bibliothèque interne — Pokémon RPG Economy
 
-**Statut :** architecture de bibliothèque retenue ; socle initial et suppression EXP/EV intégrés dans main ; pipeline de bundle Lua source adopté  
+**Statut :** architecture retenue ; socle initial et suppression EXP/EV intégrés dans main ; bundle Lua source implémenté dans la PR #9 (brouillon, CI réussie)
 **Périmètre :** mod pokemon-rpg-economy, Gen1Recomp API 3, Pokémon Emerald uniquement  
 **Référence moteur auditée :** 0be34bc76cecf996e91d2f905d1b4bb5f14d43ae
 
