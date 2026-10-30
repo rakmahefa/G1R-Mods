@@ -109,28 +109,39 @@ La première option est très exigeante : elle peut demander 252 Pokémon pour o
 
 ## 9. Day Care
 
-**Décision validée :** cinq œufs sont consommés en une transaction et donnent un Pokémon de niveau 5.
+**Décision validée — échange de cinq œufs :** le joueur remet cinq œufs, puis choisit un Pokémon parmi dix espèces admissibles tirées au sort. Le tirage aléatoire constitue la liste des dix choix ; le joueur décide de l'espèce finale.
+
+Règles confirmées :
+- les cinq œufs sont consommés en une transaction, après confirmation du choix ;
+- les dix options sont dix espèces distinctes ;
+- aucune espèce légendaire n'est admissible ;
+- chaque option est une espèce au premier stade (forme de base, sans évolution préalable) ;
+- le Pokémon choisi est créé directement au niveau 5, sans passer par un œuf à éclore ;
+- le choix du joueur est respecté : aucun tirage supplémentaire ne remplace l'espèce sélectionnée ;
+- une annulation ou l'impossibilité de recevoir le Pokémon ne consomme aucun œuf.
 
 Restent à définir :
-- la liste des dix espèces possibles ;
-- une sélection fixe, par rotation ou dépendante du palier ;
-- le traitement des Pokémon reçus par cet échange lorsqu'ils sont proposés comme donneurs ;
+- la liste complète des espèces admissibles et les règles précises du pool selon le palier ;
+- si le tirage des dix choix est fixe, renouvelé par rotation ou recalculé à chaque échange ;
+- le traitement des Pokémon obtenus par cet échange lorsqu'ils sont proposés comme donneurs ;
 - si des protections supplémentaires s'appliquent aux espèces déjà possédées.
 
-**Recommandation :** la sélection contient uniquement des espèces non légendaires et non évoluées de premier stade, avec une composition adaptée au palier de guilde. Le Pokémon récompense est créé directement au niveau 5, sans passer par un œuf à éclore.
+Le pool doit rester cohérent avec le palier de progression et exclure les légendaires ainsi que les espèces qui ne sont pas au premier stade.
 
-## 10. Systèmes propres à Emerald — ajouts recommandés
+## 10. Systèmes propres à Emerald — direction acceptée
 
-Les systèmes ci-dessous sont des recommandations à inclure progressivement, pas des dépendances du premier prototype économique.
+**Décision validée :** les recommandations Emerald sont acceptées comme direction de conception et de roadmap. Elles seront intégrées par étapes, sans retarder la première boucle économique jouable.
 
-- Rang de guilde distinct des badges : recommandé. Les badges contrôlent les niveaux ; la réputation débloque contrats, services secondaires et recettes.
-- Baies et Pokéblocs : fortement recommandé comme source de revenus non sacrificielle et activité d'exploration.
-- Concours Pokémon : recommandé en contenu secondaire, avec des récompenses de réputation, rubans et Pokédollars plutôt que des améliorations de combat.
-- Base secrète comme quartier général : recommandé, sous réserve de vérifier si le système natif peut être réutilisé proprement ou si une carte dédiée est préférable.
-- Match Call / PokéNav : recommandé pour des rematchs d'élite contrôlés, sans transformer les dresseurs originaux en source infinie d'argent.
-- Battle Frontier : recommandé pour le post-game, avec une économie de récompenses séparée.
+- **Rang de guilde distinct des badges :** accepté. Les badges contrôlent les plafonds de niveau et les jalons de campagne ; la réputation débloque les contrats spécialisés, services secondaires et recettes.
+- **Baies et contrats d'approvisionnement :** acceptés comme voie de revenus alternative ne nécessitant pas de sacrifier un Pokémon.
+- **Pokéblocs et concours :** acceptés comme boucle secondaire non combattante et source de réputation, rubans, décorations et récompenses économiques contrôlées.
+- **Base secrète comme quartier général :** acceptée comme objectif de conception, sous réserve d'un prototype pour choisir entre réutilisation du système natif et carte dédiée, sans dégrader la base personnelle du joueur.
+- **Match Call / PokéNav :** accepté pour des rematchs de guilde et défis contrôlés, sans réinitialiser les flags des dresseurs de l'histoire originale ni créer de farm illimité.
+- **Boss conçus autour de la météo, des doubles combats et de l'environnement :** acceptés comme principes de conception des rencontres optionnelles.
+- **Contrats d'expédition :** acceptés pour valoriser la découverte, l'observation et les zones facultatives, sans imposer systématiquement la capture ou la consommation d'un Pokémon.
+- **Zone de Combat :** acceptée comme contenu de post-game, avec ses récompenses de maîtrise distinctes.
 
-**Question :** quels de ces systèmes doivent être inclus dans la première version jouable, et lesquels peuvent attendre après la boucle économique de base ?
+L'ordre d'intégration reste celui décrit dans les documents de fonctionnalités et de roadmap : boucle économique initiale et contrat simple de baies d'abord ; réputation, Pokéblocs/concours, expéditions, Match Call et quartier général ensuite ; Zone de Combat et défis d'élite après la Ligue.
 
 ## 11. Matériaux de boss
 
