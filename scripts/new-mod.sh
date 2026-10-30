@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "\${BASH_SOURCE[0]}")/.." && pwd)"
-PYTHON_BIN="\${PYTHON:-python3}"
-MOD_ID="\${1:-}"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+PYTHON_BIN="${PYTHON:-python3}"
+MOD_ID="${1:-}"
 
 if [[ ! "$MOD_ID" =~ ^[A-Za-z0-9_-]+$ ]]; then
   echo "Usage: scripts/new-mod.sh <mod-id> (letters, numbers, _ and - only)" >&2

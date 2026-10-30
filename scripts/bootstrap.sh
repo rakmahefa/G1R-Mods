@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT="$(cd "$(dirname "\${BASH_SOURCE[0]}")/.." && pwd)"
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
 INSTALL_PYTHON_DEPS=0
-case "\${1:-}" in
+case "${1:-}" in
   "") ;;
   --install-python-deps) INSTALL_PYTHON_DEPS=1 ;;
   -h|--help)

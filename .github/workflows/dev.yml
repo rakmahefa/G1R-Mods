@@ -11,7 +11,7 @@ on:
         type: string
 
 concurrency:
-  group: dev-artifacts-\${{ github.ref }}
+  group: dev-artifacts-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -49,10 +49,10 @@ jobs:
 
       - name: Build development ZIP packages
         env:
-          MOD_ID: \${{ inputs.mod_id }}
+          MOD_ID: ${{ inputs.mod_id }}
         run: |
           set -euo pipefail
-          if [ -n "\${MOD_ID:-}" ]; then
+          if [ -n "${MOD_ID:-}" ]; then
             ./scripts/package.sh "$MOD_ID"
           else
             make package
@@ -61,7 +61,7 @@ jobs:
       - name: Upload installable development packages
         uses: actions/upload-artifact@v7
         with:
-          name: g1r-mods-\${{ github.ref_name }}-\${{ github.sha }}
+          name: g1r-mods-${{ github.ref_name }}-${{ github.sha }}
           path: dist/**
           if-no-files-found: error
           retention-days: 14
