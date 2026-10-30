@@ -16,6 +16,22 @@ Les personnages ne doivent pas tous apparaître dès le début. Ils sont introdu
 
 Le personnage-clé doit apporter une fonction utile et une identité propre. Éviter de transformer chaque PNJ en simple menu de boutique.
 
+### Apparition progressive des avantages
+
+| Progression | Personnage ou avantage introduit |
+|---|---|
+| Début | Le responsable des contrats présente la capture rémunérée et le fonctionnement du tableau |
+| Premier badge | L'instructeur de guilde débloque l'entraînement payé et explique le plafond de niveau |
+| Deuxième badge | Le technicien d'arène introduit le changement de nature |
+| Troisième badge | Le service d'IV devient disponible |
+| Quatrième badge | Accès élargi aux TM et au tutorat de techniques |
+| Cinquième badge | Ouverture de l'investissement EV |
+| Sixième badge | Services d'évolution et recettes intermédiaires de crafting |
+| Septième badge | Personnage de guilde spécialisé dans les matériaux et objets tenus de haut palier |
+| Huitième badge | Défis de fin de campagne et services de post-game |
+
+Ce calendrier est indicatif. Les avantages doivent apparaître au moment où ils deviennent utiles, et non tous être visibles dès la première ville. Un nouveau personnage peut annoncer un service futur sans le rendre utilisable avant le badge correspondant.
+
 ## 2. Tableau de capture dans les Centres Pokémon
 
 Chaque Centre Pokémon concerné reçoit :
