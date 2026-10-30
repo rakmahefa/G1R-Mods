@@ -109,24 +109,27 @@ La première option est très exigeante : elle peut demander 252 Pokémon pour o
 
 ## 9. Day Care
 
-**Décision validée — échange de cinq œufs :** le joueur remet cinq œufs, puis choisit un Pokémon parmi dix espèces admissibles tirées au sort. Le tirage aléatoire constitue la liste des dix choix ; le joueur décide de l'espèce finale.
+**Décision validée — échange risqué de cinq œufs :** le joueur remet cinq œufs ; le système génère dix Pokémon de niveau 5 appartenant à dix espèces admissibles et distinctes ; le joueur choisit l'un de ces dix Pokémon. Le joueur choisit parmi les Pokémon déjà générés, pas uniquement parmi des noms d'espèces.
 
 Règles confirmées :
-- les cinq œufs sont consommés en une transaction, après confirmation du choix ;
-- les dix options sont dix espèces distinctes ;
+- avant le lancement, le Day Care affiche un avertissement : cinq œufs seront consommés, une annulation après lancement ne les rendra pas et le joueur a 10 % de risque de ne recevoir aucun Pokémon ;
+- le joueur doit confirmer explicitement ces conditions ;
+- à la confirmation du lancement, les cinq œufs sont consommés définitivement ;
+- le système tire dix espèces distinctes et génère un Pokémon réel pour chacune, directement au niveau 5 ;
 - aucune espèce légendaire n'est admissible ;
-- chaque option est une espèce au premier stade (forme de base, sans évolution préalable) ;
-- le Pokémon choisi est créé directement au niveau 5, sans passer par un œuf à éclore ;
-- le choix du joueur est respecté : aucun tirage supplémentaire ne remplace l'espèce sélectionnée ;
-- une annulation ou l'impossibilité de recevoir le Pokémon ne consomme aucun œuf.
+- chaque choix correspond à une espèce au premier stade (forme de base, sans évolution préalable) ;
+- le joueur sélectionne exactement un des dix Pokémon générés ;
+- après le choix, le tirage de réception donne 90 % de chance de recevoir exactement le Pokémon choisi et 10 % de chance de ne rien recevoir ;
+- une annulation après lancement ou un échec de réception ne rend pas les cinq œufs et ne donne aucun Pokémon ;
+- aucun nouvel essai gratuit n'est possible avec les mêmes œufs.
 
 Restent à définir :
 - la liste complète des espèces admissibles et les règles précises du pool selon le palier ;
-- si le tirage des dix choix est fixe, renouvelé par rotation ou recalculé à chaque échange ;
+- si le pool de dix options est fixe, renouvelé par rotation ou recalculé à chaque échange ;
 - le traitement des Pokémon obtenus par cet échange lorsqu'ils sont proposés comme donneurs ;
 - si des protections supplémentaires s'appliquent aux espèces déjà possédées.
 
-Le pool doit rester cohérent avec le palier de progression et exclure les légendaires ainsi que les espèces qui ne sont pas au premier stade.
+La génération doit conserver les caractéristiques légales d'un Pokémon de génération III. L'interface doit distinguer clairement l'annulation avant confirmation (aucun échange n'a commencé) d'une annulation après lancement (œufs déjà consommés).
 
 ## 10. Systèmes propres à Emerald — direction acceptée
 
